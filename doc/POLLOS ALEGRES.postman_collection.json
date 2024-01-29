@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "7df0d522-bca8-4ddc-a267-dcc8cc8980e2",
+		"name": "POLLOS ALEGRES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1059617"
+	},
+	"item": [
+		{
+			"name": "Establecimientos",
+			"item": [
+				{
+					"name": "GET ALL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/establecimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"establecimientos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BY CODIGO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/establecimientos/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"establecimientos",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREAR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombreComercial\": \"Pollos Felices - POSTMAN\",\r\n    \"direccion\": {\r\n        \"direccion\": \"c/Postman, 34\",\r\n        \"poblacion\": \"Sabadell\",\r\n        \"codigoPostal\": \"28029\",\r\n        \"provincia\": \"Barcelona\",\r\n        \"pais\": \"España\"\r\n    },\r\n    \"datosContacto\": {\r\n        \"telefono\": \"91 220 34 43\",\r\n        \"fax\": \"91 220 24 55\",\r\n        \"email\": \"postman@pollosfelices.com\"\r\n    },\r\n    \"fechaInauguracion\": \"2005-04-13T22:00:00.000+00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/establecimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"establecimientos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
