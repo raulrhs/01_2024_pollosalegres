@@ -43,13 +43,28 @@ public class CamareroServicesImpl implements CamareroServices {
 
 	@Override
 	public Optional<Camarero> read(String dni) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		return CAMAREROS_DB.values().stream()
+				.filter(x -> x.getDni().equals(dni))
+				.findFirst();
 	}
 
 	@Override
 	public void update(Camarero camarero) {
-		// TODO Auto-generated method stub
+		
+		Long id = camarero.getId();
+		
+		if(id == null) {
+			throw new IllegalStateException("No se puede actualizar un camarero con id null");
+		}
+		
+		boolean existe = CAMAREROS_DB.containsKey(id);
+		
+		if(!existe) {
+			throw new IllegalStateException("El camarero con id " + id + " no existe. No se puede actualizar");
+		}
+		
+		CAMAREROS_DB.replace(id, camarero);
 		
 	}
 
@@ -93,12 +108,15 @@ public class CamareroServicesImpl implements CamareroServices {
 		
 		Camarero c1 = new Camarero();
 		Camarero c2 = new Camarero();
+		Camarero c3 = new Camarero();
 		
 		Direccion direccion1 = new Direccion();
 		Direccion direccion2 = new Direccion();
+		Direccion direccion3 = new Direccion();
 		
 		DatosContacto datosContacto1 = new DatosContacto();
 		DatosContacto datosContacto2 = new DatosContacto();
+		DatosContacto datosContacto3 = new DatosContacto();
 		
 		direccion1.setDireccion("c/ Padilla, 230 ático 2");
 		direccion1.setPoblacion("Barcelona");
@@ -118,6 +136,15 @@ public class CamareroServicesImpl implements CamareroServices {
 		datosContacto2.setFax(null);
 		datosContacto2.setEmail("annabado@gmail.com");
 		
+		direccion3.setDireccion("c/ Pez Volador, 2 4º 2ª");
+		direccion3.setPoblacion("Madrid");
+		direccion3.setCodigoPostal("91240");
+		direccion3.setProvincia("Madrid");
+		direccion3.setPais("España");
+		datosContacto3.setTelefono("912547821");
+		datosContacto3.setFax(null);
+		datosContacto3.setEmail("pacoort@gmail.com");
+		
 		c1.setId(100L);
 		c1.setDni("27884178R");
 		c1.setNombre("Pablo");
@@ -136,8 +163,18 @@ public class CamareroServicesImpl implements CamareroServices {
 		c2.setDatosContacto(datosContacto2);
 		c2.setLicenciaManipuladorAlimentos("LMA9000238712F");
 		
+		c3.setId(102L);
+		c3.setDni("45099812W");
+		c3.setNombre("Francisco Javier");
+		c3.setApellido1("Ort");
+		c3.setApellido2("Montcunill");
+		c3.setDireccion(direccion3);
+		c3.setDatosContacto(datosContacto3);
+		c3.setLicenciaManipuladorAlimentos("LMA9033289712G");
+		
 		CAMAREROS_DB.put(c1.getId(), c1);
 		CAMAREROS_DB.put(c2.getId(), c2);
+		CAMAREROS_DB.put(c3.getId(), c3);
 		
 	}
 
