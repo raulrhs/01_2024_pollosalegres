@@ -37,11 +37,7 @@ public class EstablecimientoServicesImpl implements EstablecimientoServices {
 		establecimiento.setCodigo(codigo);
 		
 		ESTABLECIMIENTOS_DB.put(codigo, establecimiento);
-		
-		if(Math.random() > 0) {
-			throw new ClassCastException();
-		}
-		
+
 		return codigo;
 	}
 

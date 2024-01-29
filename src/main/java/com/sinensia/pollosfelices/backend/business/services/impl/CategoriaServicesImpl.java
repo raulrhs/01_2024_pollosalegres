@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.sinensia.pollosfelices.backend.business.model.Categoria;
 import com.sinensia.pollosfelices.backend.business.services.CategoriaServices;
 
+@Service
 public class CategoriaServicesImpl implements CategoriaServices {
 
 	private final Map<Long, Categoria> CATEGORIAS_DB = new HashMap<>();
@@ -19,14 +22,23 @@ public class CategoriaServicesImpl implements CategoriaServices {
 	
 	@Override
 	public Long create(Categoria categoria) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(categoria.getId() != null) {
+			throw new IllegalStateException("Para crear una categoria el id ha de ser null");
+		}
+		
+		Long id = System.currentTimeMillis();
+		
+		categoria.setId(id);
+		
+		CATEGORIAS_DB.put(id, categoria);
+	
+		return id;
 	}
 
 	@Override
 	public Optional<Categoria> read(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		return Optional.ofNullable(CATEGORIAS_DB.get(id));
 	}
 
 	@Override
