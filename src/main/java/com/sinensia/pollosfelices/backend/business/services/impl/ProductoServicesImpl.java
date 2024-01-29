@@ -25,8 +25,18 @@ public class ProductoServicesImpl implements ProductoServices {
 	
 	@Override
 	public Long create(Producto producto) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(producto.getCodigo() != null) {
+			throw new IllegalStateException("Para crear un producto el codigo ha de ser null");
+		}
+		
+		Long codigo = System.currentTimeMillis();
+		
+		producto.setCodigo(codigo);
+		
+		PRODUCTOS_DB.put(codigo, producto);
+
+		return codigo;
 	}
 
 	@Override
@@ -36,7 +46,20 @@ public class ProductoServicesImpl implements ProductoServices {
 
 	@Override
 	public void update(Producto producto) {
-		// TODO Auto-generated method stub
+		
+		Long codigo = producto.getCodigo();
+		
+		if(codigo == null) {
+			throw new IllegalStateException("No se puede actualizar un producto con codigo null");
+		}
+		
+		boolean existe = PRODUCTOS_DB.containsKey(codigo);
+		
+		if(!existe) {
+			throw new IllegalStateException("El producto con código " + codigo + " no existe. No se puede actualizar");
+		}
+		
+		PRODUCTOS_DB.replace(codigo, producto);
 		
 	}
 
@@ -47,32 +70,39 @@ public class ProductoServicesImpl implements ProductoServices {
 
 	@Override
 	public List<Producto> getBetweenPriceRange(double min, double max) {
-		// TODO Auto-generated method stub
-		return null;
+	
+		return PRODUCTOS_DB.values().stream()
+				.filter(x -> x.getPrecio() >= min && x.getPrecio() <= max)
+				.toList(); 
 	}
 
 	@Override
 	public List<Producto> getBetweenDates(Date desde, Date hasta) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return PRODUCTOS_DB.values().stream()
+				.filter(x -> x.getFechaAlta().after(desde) && x.getFechaAlta().before(hasta))
+				.toList();
 	}
 
 	@Override
 	public List<Producto> getDescatalogados() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return PRODUCTOS_DB.values().stream()
+				.filter(x -> x.isDescatalogado())
+				.toList(); 
 	}
 
 	@Override
 	public List<Producto> getByCategoria(Categoria categoria) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return PRODUCTOS_DB.values().stream()
+				.filter(x -> x.getCategoria().equals(categoria))
+				.toList();
 	}
 
 	@Override
 	public int getNumeroTotalProductos() {
-		// TODO Auto-generated method stub
-		return 0;
+		return PRODUCTOS_DB.size();
 	}
 
 	@Override
