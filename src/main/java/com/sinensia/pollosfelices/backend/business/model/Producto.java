@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Producto implements Serializable {
 
-	private Long id;
+	private Long codigo;
 	private String nombre;
 	private String descripcion;
 	private Date fechaAlta;
@@ -18,12 +18,12 @@ public class Producto implements Serializable {
 		
 	}
 
-	public Long getId() {
-		return id;
+	public Long getCodigo() {
+		return codigo;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNombre() {
@@ -76,7 +76,7 @@ public class Producto implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(codigo);
 	}
 
 	@Override
@@ -88,12 +88,12 @@ public class Producto implements Serializable {
 			return false;
 		}
 		Producto other = (Producto) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(codigo, other.codigo);
 	}
 
 	@Override
 	public String toString() {
-		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fechaAlta=" + fechaAlta
+		return "Producto [codigo=" + codigo + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fechaAlta=" + fechaAlta
 				+ ", precio=" + precio + ", categoria=" + categoria + ", descatalogado=" + descatalogado + "]";
 	}
 }
