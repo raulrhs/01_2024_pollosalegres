@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.sinensia.pollosfelices.backend.business.model.Camarero;
 
 import com.sinensia.pollosfelices.backend.business.model.DatosContacto;
 import com.sinensia.pollosfelices.backend.business.model.Direccion;
 import com.sinensia.pollosfelices.backend.business.services.CamareroServices;
 
+@Service
 public class CamareroServicesImpl implements CamareroServices {
 
 	private final Map<Long, Camarero> CAMAREROS_DB = new HashMap<>();
@@ -89,7 +92,7 @@ public class CamareroServicesImpl implements CamareroServices {
 	public List<Camarero> getByNombreLikeIgnoreCase(String texto) {
 		
 		return CAMAREROS_DB.values().stream()
-				.filter(x -> x.getNombre().toUpperCase().equals(texto.toUpperCase()))
+				.filter(x -> x.getNombre().toUpperCase().contains(texto.toUpperCase()))
 				.toList();	
 	}
 

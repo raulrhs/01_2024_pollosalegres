@@ -77,6 +77,133 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Camareros",
+			"item": [
+				{
+					"name": "GET BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/camareros/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"camareros",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/camareros?nombre=bLO",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"camareros"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "bLO"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREAR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\": \"11111111T\",\r\n    \"nombre\": \"Nuevo Cliente\",\r\n    \"apellido1\": \"Fernández\",\r\n    \"apellido2\": \"Borlán\",\r\n    \"direccion\": {\r\n        \"direccion\": \"c/ Padilla, 230 ático 2\",\r\n        \"poblacion\": \"Barcelona\",\r\n        \"codigoPostal\": \"80934\",\r\n        \"provincia\": \"Barcelona\",\r\n        \"pais\": \"España\"\r\n    },\r\n    \"datosContacto\": {\r\n        \"telefono\": \"932218772\",\r\n        \"fax\": null,\r\n        \"email\": \"pablofer334@hotmail.com\"\r\n    },\r\n    \"licenciaManipuladorAlimentos\": \"LMA4998111253R\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/camareros",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"camareros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\": \"27884178R\",\r\n    \"nombre\": \"Pablo UPDATED\",\r\n    \"apellido1\": \"Fernández\",\r\n    \"apellido2\": \"Borlán\",\r\n    \"direccion\": {\r\n        \"direccion\": \"c/ Padilla, 230 ático 2\",\r\n        \"poblacion\": \"Barcelona UPDATED\",\r\n        \"codigoPostal\": \"80934\",\r\n        \"provincia\": \"Barcelona\",\r\n        \"pais\": \"España\"\r\n    },\r\n    \"datosContacto\": {\r\n        \"telefono\": \"932218772\",\r\n        \"fax\": null,\r\n        \"email\": \"pabloupdated334@hotmail.com\"\r\n    },\r\n    \"licenciaManipuladorAlimentos\": \"LMA4998111253R\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/camareros/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"camareros",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/camareros/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"camareros",
+								"100"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

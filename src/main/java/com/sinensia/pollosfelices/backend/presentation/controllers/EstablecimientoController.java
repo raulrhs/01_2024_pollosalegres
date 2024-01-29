@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.sinensia.pollosfelices.backend.business.model.Establecimiento;
 import com.sinensia.pollosfelices.backend.business.services.EstablecimientoServices;
-import com.sinensia.pollosfelices.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosfelices.backend.presentation.config.PresentationException;
 
 @RestController
 @RequestMapping("/establecimientos")
@@ -34,16 +34,15 @@ public class EstablecimientoController {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<?> read(@PathVariable Long codigo) {
+	public Establecimiento read(@PathVariable Long codigo) {
 	
 		Optional<Establecimiento> optional = establecimientoServices.read(codigo);
 		
-		if(optional.isPresent()) {
-			return ResponseEntity.ok(optional.get());
-		} else {
-			RespuestaError respuestaError = new RespuestaError("No existe el establecimiebto " + codigo);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(respuestaError);
+		if(optional.isEmpty()) {
+			throw new PresentationException("No existe el establecimiebto " + codigo, HttpStatus.NOT_FOUND);	
 		}
+		
+		return optional.get();
 	}
 	
 	@PostMapping
@@ -54,13 +53,12 @@ public class EstablecimientoController {
 		try {
 			nuevoCodigo = establecimientoServices.create(establecimiento);
 		} catch(IllegalStateException e) {
-			return ResponseEntity.badRequest().body(new RespuestaError(e.getMessage()));
-		} catch(Exception e) {
-			return ResponseEntity.internalServerError().body(new RespuestaError("Algo ha ido mal... Contacta con la empresa del backend"));
+			throw new PresentationException(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
 		URI uri = ucb.path("/establecimientos/{codigo}").build(nuevoCodigo);
 		
 		return ResponseEntity.created(uri).build();
 	}
+
 }

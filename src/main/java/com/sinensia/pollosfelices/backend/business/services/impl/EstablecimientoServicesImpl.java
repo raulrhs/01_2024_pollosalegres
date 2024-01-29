@@ -38,6 +38,10 @@ public class EstablecimientoServicesImpl implements EstablecimientoServices {
 		
 		ESTABLECIMIENTOS_DB.put(codigo, establecimiento);
 		
+		if(Math.random() > 0) {
+			throw new ClassCastException();
+		}
+		
 		return codigo;
 	}
 
