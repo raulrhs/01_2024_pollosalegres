@@ -90,8 +90,7 @@ class CategoriaControllerTest {
 		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
 		
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
-		
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);	
 	}
 	
 	@Test
@@ -105,8 +104,7 @@ class CategoriaControllerTest {
 		
 		miniPostman.perform(post("/categorias").content(requestBody).contentType("application/json"))
 								.andExpect(status().isCreated())
-								.andExpect(header().string("Location","http://localhost/categorias/467"));
-		
+								.andExpect(header().string("Location","http://localhost/categorias/467"));	
 	}
 	
 	@Test
@@ -125,8 +123,7 @@ class CategoriaControllerTest {
 		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
 		
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
-		
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);	
 	}
 		
 	// *************************************************

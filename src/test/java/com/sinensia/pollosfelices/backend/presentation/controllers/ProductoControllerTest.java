@@ -96,8 +96,7 @@ class ProductoControllerTest {
 		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
 		
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
-		
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);	
 	}
 
 	@Test
@@ -112,7 +111,6 @@ class ProductoControllerTest {
 		miniPostman.perform(post("/productos").content(requestBody).contentType("application/json"))
 				.andExpect(status().isCreated())
 				.andExpect(header().string("Location", "http://localhost/productos/1011"));
-
 	}
 
 	@Test
@@ -131,8 +129,7 @@ class ProductoControllerTest {
 		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
 		
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
-		
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);	
 	}
 	
 	@Test
@@ -214,6 +211,5 @@ class ProductoControllerTest {
 		producto2.setCategoria(c2);
 		producto2.setFechaAlta(fecha2);
 		producto2.setDescatalogado(false);
-
 	}
 }

@@ -129,8 +129,7 @@ class CamareroControllerTest {
 		
 		miniPostman.perform(post("/camareros").content(requestBody).contentType("application/json"))
 							.andExpect(status().isCreated())
-							.andExpect(header().string("Location","http://localhost/camareros/123456"));
-						
+							.andExpect(header().string("Location","http://localhost/camareros/123456"));					
 	}
 	
 	
@@ -183,7 +182,6 @@ class CamareroControllerTest {
 		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
 
 		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);	
-		
 	}
 		
 	@Test
@@ -287,7 +285,6 @@ class CamareroControllerTest {
 		camarero3.setDireccion(direccion3);
 		camarero3.setDatosContacto(datosContacto3);
 		camarero3.setLicenciaManipuladorAlimentos("LMA9033289712G");
-
 	}
 
 }
