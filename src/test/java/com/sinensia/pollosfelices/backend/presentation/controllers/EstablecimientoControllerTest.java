@@ -31,7 +31,7 @@ import com.sinensia.pollosfelices.backend.business.services.EstablecimientoServi
 import com.sinensia.pollosfelices.backend.presentation.config.RespuestaError;
 
 @WebMvcTest(value=EstablecimientoController.class)
-public class EstablecimientoControllerTest {
+class EstablecimientoControllerTest {
 
 	@Autowired
 	private MockMvc miniPostman;

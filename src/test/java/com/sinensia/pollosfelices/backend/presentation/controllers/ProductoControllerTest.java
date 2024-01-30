@@ -29,7 +29,7 @@ import com.sinensia.pollosfelices.backend.business.services.ProductoServices;
 import com.sinensia.pollosfelices.backend.presentation.config.RespuestaError;
 
 @WebMvcTest(value = ProductoController.class)
-public class ProductoControllerTest {
+class ProductoControllerTest {
 
 	@Autowired
 	private MockMvc miniPostman;

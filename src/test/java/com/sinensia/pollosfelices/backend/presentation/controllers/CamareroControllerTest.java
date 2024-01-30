@@ -26,7 +26,7 @@ import com.sinensia.pollosfelices.backend.business.model.Direccion;
 import com.sinensia.pollosfelices.backend.business.services.CamareroServices;
 
 @WebMvcTest(value = CamareroController.class)
-public class CamareroControllerTest {
+class CamareroControllerTest {
 
 	@Autowired
 	private MockMvc miniPostman;

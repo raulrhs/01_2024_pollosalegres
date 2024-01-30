@@ -8,7 +8,7 @@ public class LineaPedido implements Serializable {
 	private int cantidad;
 	
 	public LineaPedido() {
-		
+		// No args constructor
 	}
 
 	public Producto getProducto() {
