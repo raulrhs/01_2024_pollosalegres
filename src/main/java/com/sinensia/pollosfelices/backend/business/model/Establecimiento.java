@@ -13,7 +13,7 @@ public class Establecimiento implements Serializable {
 	private Date fechaInauguracion;
 	
 	public Establecimiento() {
-		
+		// No args constructor
 	}
 
 	public Long getCodigo() {

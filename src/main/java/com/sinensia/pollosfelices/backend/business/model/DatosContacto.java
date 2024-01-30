@@ -9,7 +9,7 @@ public class DatosContacto implements Serializable {
 	private String email;
 	
 	public DatosContacto() {
-		
+		// No args constructor
 	}
 
 	public String getTelefono() {
