@@ -1,9 +1,13 @@
 package com.sinensia.pollosfelices.backend.presentation.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -129,6 +133,38 @@ class ProductoControllerTest {
 		
 		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
 		
+	}
+	
+	@Test
+	void actualizamos_producto_ok() throws Exception {
+
+		String requestBody = objectMapper.writeValueAsString(producto1);
+		
+		miniPostman.perform(put("/productos/1011").content(requestBody).contentType("application/json"))
+						.andExpect(status().isNoContent());
+		
+		verify(productoServices, times(1)).update(producto1);
+	}
+	
+	@Test
+	void actualizamos_producto_con_codigo_null() throws Exception {
+		
+		doThrow(new IllegalStateException("EL MENSAJE")).when(productoServices).update(producto1);
+		
+		String requestBody = objectMapper.writeValueAsString(producto1);
+		
+		MvcResult respuesta = miniPostman.perform(put("/productos/1011").content(requestBody).contentType("application/json"))
+				 							.andExpect(status().isNotFound())
+				 							.andReturn();
+
+		verify(productoServices, times(1)).update(producto1);
+
+		RespuestaError respuestaError = new RespuestaError("EL MENSAJE");
+
+		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
+
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);	
 	}
 
 	// *************************************************
