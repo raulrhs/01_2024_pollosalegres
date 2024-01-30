@@ -39,7 +39,7 @@ public class EstablecimientoController {
 		Optional<Establecimiento> optional = establecimientoServices.read(codigo);
 		
 		if(optional.isEmpty()) {
-			throw new PresentationException("No existe el establecimiebto " + codigo, HttpStatus.NOT_FOUND);	
+			throw new PresentationException("No existe el establecimiento " + codigo, HttpStatus.NOT_FOUND);	
 		}
 		
 		return optional.get();
