@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.sinensia.pollosfelices.backend.business.model.Categoria;
 import com.sinensia.pollosfelices.backend.business.model.Producto;
+import com.sinensia.pollosfelices.backend.business.model.dtos.EstadisticaDTO1;
+import com.sinensia.pollosfelices.backend.business.model.dtos.EstadisticaDTO2;
 import com.sinensia.pollosfelices.backend.business.services.ProductoServices;
 
 @Service
@@ -120,12 +123,42 @@ public class ProductoServicesImpl implements ProductoServices {
 
 	@Override
 	public Map<Categoria, Integer> getEstadisticaNumeroProductoPorCategoria() {
-		// TODO Auto-generated method stub
-		return null;
+	
+		Map<Categoria, Integer> estadistica = new HashMap<>();
+		
+		for(Producto producto: PRODUCTOS.values()) {
+			
+			if(!estadistica.containsKey(producto.getCategoria())) {
+				estadistica.put(producto.getCategoria(), 0);
+			}
+			int numeroProductos = estadistica.get(producto.getCategoria());
+			estadistica.replace(producto.getCategoria(), numeroProductos + 1);
+		}
+		
+		return estadistica;
 	}
 
 	@Override
 	public Map<Categoria, Double> getEstadisticaPrecioMedioProductosPorCategoria() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<EstadisticaDTO1> getEstadisticasDTO1() {
+		
+		Map<Categoria, Integer> estadistica = getEstadisticaNumeroProductoPorCategoria();
+		List<EstadisticaDTO1> estadisticasDTO1 = new ArrayList<>();
+		
+		for(Categoria categoria: estadistica.keySet()) {
+			estadisticasDTO1.add(new EstadisticaDTO1(categoria.getId(), categoria.getNombre(), estadistica.get(categoria)));
+		}
+		
+		return estadisticasDTO1;
+	}
+
+	@Override
+	public List<EstadisticaDTO2> getEstadisticasDTO2() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -274,5 +307,4 @@ public class ProductoServicesImpl implements ProductoServices {
 		PRODUCTOS.put(p10.getCodigo(), p10);
 		
 	}
-
 }
