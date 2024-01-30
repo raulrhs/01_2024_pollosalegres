@@ -1,5 +1,6 @@
 package com.sinensia.pollosfelices.backend.business.services.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -143,16 +144,16 @@ public class ProductoServicesImpl implements ProductoServices {
 		Date fecha4 = null;
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
+
 		try {
 			fecha1 = sdf.parse("17/02/2003");
 			fecha2 = sdf.parse("09/11/2004");
 			fecha3 = sdf.parse("10/12/2004");
 			fecha4 = sdf.parse("30/01/2005");
-		} catch(Exception e) {
-			
+		} catch(ParseException e) {
+			// not reached
 		}
-		
+	
 		Categoria c1 = new Categoria();
 		Categoria c2 = new Categoria();
 		Categoria c3 = new Categoria();
