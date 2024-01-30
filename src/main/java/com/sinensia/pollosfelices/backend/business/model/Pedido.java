@@ -92,10 +92,4 @@ public class Pedido implements Serializable {
 		return Objects.equals(numero, other.numero);
 	}
 
-	@Override
-	public String toString() {
-		return "Pedido [numero=" + numero + ", fecha=" + fecha + ", cliente=" + cliente + ", camarero=" + camarero
-				+ ", establecimiento=" + establecimiento + ", estado=" + estado + ", lineas=" + lineas + "]";
-	}
-
 }

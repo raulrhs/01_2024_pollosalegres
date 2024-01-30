@@ -17,7 +17,7 @@ import com.sinensia.pollosfelices.backend.business.services.CamareroServices;
 @Service
 public class CamareroServicesImpl implements CamareroServices {
 
-	private final Map<Long, Camarero> CAMAREROS_DB = new HashMap<>();
+	private final Map<Long, Camarero> CAMAREROSDB = new HashMap<>();
 	
 	public CamareroServicesImpl() {
 		init();
@@ -34,20 +34,20 @@ public class CamareroServicesImpl implements CamareroServices {
 		
 		camarero.setId(id);
 		
-		CAMAREROS_DB.put(id, camarero);
+		CAMAREROSDB.put(id, camarero);
 		
 		return id;
 	}
 
 	@Override
 	public Optional<Camarero> read(Long id) {
-		return Optional.ofNullable(CAMAREROS_DB.get(id));
+		return Optional.ofNullable(CAMAREROSDB.get(id));
 	}
 	
 	@Override
 	public Optional<Camarero> read(String dni) {
 		
-		return CAMAREROS_DB.values().stream()
+		return CAMAREROSDB.values().stream()
 				.filter(x -> x.getDni().equals(dni))
 				.findFirst();
 	}
@@ -61,44 +61,44 @@ public class CamareroServicesImpl implements CamareroServices {
 			throw new IllegalStateException("No se puede actualizar un camarero con id null");
 		}
 		
-		boolean existe = CAMAREROS_DB.containsKey(id);
+		boolean existe = CAMAREROSDB.containsKey(id);
 		
 		if(!existe) {
 			throw new IllegalStateException("El camarero con id " + id + " no existe. No se puede actualizar");
 		}
 		
-		CAMAREROS_DB.replace(id, camarero);
+		CAMAREROSDB.replace(id, camarero);
 		
 	}
 
 	@Override
 	public void delete(Long id) {
 		
-		boolean existe = CAMAREROS_DB.containsKey(id);
+		boolean existe = CAMAREROSDB.containsKey(id);
 		
 		if(!existe) {
 			throw new IllegalStateException("EL camarero con id " + id + " no existe. No se puede eliminar.");
 		}
 		
-		CAMAREROS_DB.remove(id);
+		CAMAREROSDB.remove(id);
 	}
 
 	@Override
 	public List<Camarero> getAll() {
-		return new ArrayList<>(CAMAREROS_DB.values());
+		return new ArrayList<>(CAMAREROSDB.values());
 	}
 
 	@Override
 	public List<Camarero> getByNombreLikeIgnoreCase(String texto) {
 		
-		return CAMAREROS_DB.values().stream()
+		return CAMAREROSDB.values().stream()
 				.filter(x -> x.getNombre().toUpperCase().contains(texto.toUpperCase()))
 				.toList();	
 	}
 
 	@Override
 	public int getNumeroTotalCamareros() {
-		return CAMAREROS_DB.size();
+		return CAMAREROSDB.size();
 	}
 	
 	// *************************************************
@@ -175,10 +175,9 @@ public class CamareroServicesImpl implements CamareroServices {
 		c3.setDatosContacto(datosContacto3);
 		c3.setLicenciaManipuladorAlimentos("LMA9033289712G");
 		
-		CAMAREROS_DB.put(c1.getId(), c1);
-		CAMAREROS_DB.put(c2.getId(), c2);
-		CAMAREROS_DB.put(c3.getId(), c3);
-		
+		CAMAREROSDB.put(c1.getId(), c1);
+		CAMAREROSDB.put(c2.getId(), c2);
+		CAMAREROSDB.put(c3.getId(), c3);
 	}
 
 }

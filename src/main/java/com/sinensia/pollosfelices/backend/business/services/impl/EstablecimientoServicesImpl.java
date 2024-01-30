@@ -19,7 +19,7 @@ import com.sinensia.pollosfelices.backend.business.services.EstablecimientoServi
 @Service
 public class EstablecimientoServicesImpl implements EstablecimientoServices {
 
-	private final Map<Long, Establecimiento> ESTABLECIMIENTOS_DB = new HashMap<>();
+	private final Map<Long, Establecimiento> ESTABLECIMIENTOS = new HashMap<>();
 	
 	public EstablecimientoServicesImpl() {
 		init();
@@ -36,19 +36,19 @@ public class EstablecimientoServicesImpl implements EstablecimientoServices {
 		
 		establecimiento.setCodigo(codigo);
 		
-		ESTABLECIMIENTOS_DB.put(codigo, establecimiento);
+		ESTABLECIMIENTOS.put(codigo, establecimiento);
 
 		return codigo;
 	}
 
 	@Override
 	public Optional<Establecimiento> read(Long codigo) {
-		return Optional.ofNullable(ESTABLECIMIENTOS_DB.get(codigo));
+		return Optional.ofNullable(ESTABLECIMIENTOS.get(codigo));
 	}
 
 	@Override
 	public List<Establecimiento> getAll() {
-		return new ArrayList<>(ESTABLECIMIENTOS_DB.values());
+		return new ArrayList<>(ESTABLECIMIENTOS.values());
 	}
 	
 	// *************************************************
@@ -114,8 +114,8 @@ public class EstablecimientoServicesImpl implements EstablecimientoServices {
 		establecimiento1.setNombreComercial("Pollos Felices - La Vaguada");
 		establecimiento2.setNombreComercial("Pollos Felices - Granvia  2");
 		
-		ESTABLECIMIENTOS_DB.put(establecimiento1.getCodigo(), establecimiento1);
-		ESTABLECIMIENTOS_DB.put(establecimiento2.getCodigo(), establecimiento2);
+		ESTABLECIMIENTOS.put(establecimiento1.getCodigo(), establecimiento1);
+		ESTABLECIMIENTOS.put(establecimiento2.getCodigo(), establecimiento2);
 		
 	}
 

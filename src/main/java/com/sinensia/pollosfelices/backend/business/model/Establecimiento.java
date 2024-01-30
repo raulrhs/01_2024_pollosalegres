@@ -73,9 +73,4 @@ public class Establecimiento implements Serializable {
 		return Objects.equals(codigo, other.codigo);
 	}
 
-	@Override
-	public String toString() {
-		return "Establecimiento [codigo=" + codigo + ", nombreComercial=" + nombreComercial + ", direccion=" + direccion
-				+ ", datosContacto=" + datosContacto + ", fechaInauguracion=" + fechaInauguracion + "]";
-	}
 }

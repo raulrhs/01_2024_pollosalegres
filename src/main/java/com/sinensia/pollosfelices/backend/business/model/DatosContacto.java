@@ -36,9 +36,4 @@ public class DatosContacto implements Serializable {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "DatosContacto [telefono=" + telefono + ", fax=" + fax + ", email=" + email + "]";
-	}
-
 }

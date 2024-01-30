@@ -16,10 +16,4 @@ public class Camarero extends Persona {
 		this.licenciaManipuladorAlimentos = licenciaManipuladorAlimentos;
 	}
 
-	@Override
-	public String toString() {
-		return "Camarero [licenciaManipuladorAlimentos=" + licenciaManipuladorAlimentos + ", toString()="
-				+ super.toString() + "]";
-	}
-
 }

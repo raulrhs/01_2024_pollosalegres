@@ -90,10 +90,4 @@ public abstract class Persona implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	@Override
-	public String toString() {
-		return "Persona [id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2="
-				+ apellido2 + ", direccion=" + direccion + ", datosContacto=" + datosContacto + "]";
-	}
-
 }

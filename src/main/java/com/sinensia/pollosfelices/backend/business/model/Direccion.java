@@ -53,11 +53,5 @@ public class Direccion implements Serializable {
 	public void setPais(String pais) {
 		this.pais = pais;
 	}
-
-	@Override
-	public String toString() {
-		return "Direccion [direccion=" + direccion + ", poblacion=" + poblacion + ", codigoPostal=" + codigoPostal
-				+ ", provincia=" + provincia + ", pais=" + pais + "]";
-	}
 	
 }

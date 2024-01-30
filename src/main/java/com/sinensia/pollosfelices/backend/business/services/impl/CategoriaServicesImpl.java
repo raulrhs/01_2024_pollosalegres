@@ -14,7 +14,7 @@ import com.sinensia.pollosfelices.backend.business.services.CategoriaServices;
 @Service
 public class CategoriaServicesImpl implements CategoriaServices {
 
-	private final Map<Long, Categoria> CATEGORIAS_DB = new HashMap<>();
+	private final Map<Long, Categoria> CATEGORIAS = new HashMap<>();
 	
 	public CategoriaServicesImpl() {
 		init();
@@ -31,19 +31,19 @@ public class CategoriaServicesImpl implements CategoriaServices {
 		
 		categoria.setId(id);
 		
-		CATEGORIAS_DB.put(id, categoria);
+		CATEGORIAS.put(id, categoria);
 	
 		return id;
 	}
 
 	@Override
 	public Optional<Categoria> read(Long id) {
-		return Optional.ofNullable(CATEGORIAS_DB.get(id));
+		return Optional.ofNullable(CATEGORIAS.get(id));
 	}
 
 	@Override
 	public List<Categoria> getAll() {
-		return new ArrayList<>(CATEGORIAS_DB.values());
+		return new ArrayList<>(CATEGORIAS.values());
 	}
 	
 	// *************************************************
@@ -90,15 +90,14 @@ public class CategoriaServicesImpl implements CategoriaServices {
 		c9.setId(9L);
 		c9.setNombre("INFUSIÓN");
 		
-		CATEGORIAS_DB.put(c1.getId(), c1);
-		CATEGORIAS_DB.put(c2.getId(), c2);
-		CATEGORIAS_DB.put(c3.getId(), c3);
-		CATEGORIAS_DB.put(c4.getId(), c4);
-		CATEGORIAS_DB.put(c5.getId(), c5);
-		CATEGORIAS_DB.put(c6.getId(), c6);
-		CATEGORIAS_DB.put(c7.getId(), c7);
-		CATEGORIAS_DB.put(c8.getId(), c8);
-		CATEGORIAS_DB.put(c9.getId(), c9);
-	
+		CATEGORIAS.put(c1.getId(), c1);
+		CATEGORIAS.put(c2.getId(), c2);
+		CATEGORIAS.put(c3.getId(), c3);
+		CATEGORIAS.put(c4.getId(), c4);
+		CATEGORIAS.put(c5.getId(), c5);
+		CATEGORIAS.put(c6.getId(), c6);
+		CATEGORIAS.put(c7.getId(), c7);
+		CATEGORIAS.put(c8.getId(), c8);
+		CATEGORIAS.put(c9.getId(), c9);
 	}
 }

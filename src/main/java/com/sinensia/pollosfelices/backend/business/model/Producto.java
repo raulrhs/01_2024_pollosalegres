@@ -91,9 +91,4 @@ public class Producto implements Serializable {
 		return Objects.equals(codigo, other.codigo);
 	}
 
-	@Override
-	public String toString() {
-		return "Producto [codigo=" + codigo + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fechaAlta=" + fechaAlta
-				+ ", precio=" + precio + ", categoria=" + categoria + ", descatalogado=" + descatalogado + "]";
-	}
 }

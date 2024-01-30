@@ -17,7 +17,7 @@ import com.sinensia.pollosfelices.backend.business.services.ProductoServices;
 @Service
 public class ProductoServicesImpl implements ProductoServices {
 
-	private final TreeMap<Long, Producto> PRODUCTOS_DB = new TreeMap<>();
+	private final TreeMap<Long, Producto> PRODUCTOS = new TreeMap<>();
 	
 	public ProductoServicesImpl() {
 		init();
@@ -34,14 +34,14 @@ public class ProductoServicesImpl implements ProductoServices {
 		
 		producto.setCodigo(codigo);
 		
-		PRODUCTOS_DB.put(codigo, producto);
+		PRODUCTOS.put(codigo, producto);
 
 		return codigo;
 	}
 
 	@Override
 	public Optional<Producto> read(Long codigo) {
-		return Optional.ofNullable(PRODUCTOS_DB.get(codigo));
+		return Optional.ofNullable(PRODUCTOS.get(codigo));
 	}
 
 	@Override
@@ -53,25 +53,25 @@ public class ProductoServicesImpl implements ProductoServices {
 			throw new IllegalStateException("No se puede actualizar un producto con codigo null");
 		}
 		
-		boolean existe = PRODUCTOS_DB.containsKey(codigo);
+		boolean existe = PRODUCTOS.containsKey(codigo);
 		
 		if(!existe) {
 			throw new IllegalStateException("El producto con código " + codigo + " no existe. No se puede actualizar");
 		}
 		
-		PRODUCTOS_DB.replace(codigo, producto);
+		PRODUCTOS.replace(codigo, producto);
 		
 	}
 
 	@Override
 	public List<Producto> getAll() {
-		return new ArrayList<>(PRODUCTOS_DB.values());
+		return new ArrayList<>(PRODUCTOS.values());
 	}
 
 	@Override
 	public List<Producto> getBetweenPriceRange(double min, double max) {
 	
-		return PRODUCTOS_DB.values().stream()
+		return PRODUCTOS.values().stream()
 				.filter(x -> x.getPrecio() >= min && x.getPrecio() <= max)
 				.toList(); 
 	}
@@ -79,7 +79,7 @@ public class ProductoServicesImpl implements ProductoServices {
 	@Override
 	public List<Producto> getBetweenDates(Date desde, Date hasta) {
 		
-		return PRODUCTOS_DB.values().stream()
+		return PRODUCTOS.values().stream()
 				.filter(x -> x.getFechaAlta().after(desde) && x.getFechaAlta().before(hasta))
 				.toList();
 	}
@@ -87,7 +87,7 @@ public class ProductoServicesImpl implements ProductoServices {
 	@Override
 	public List<Producto> getDescatalogados() {
 		
-		return PRODUCTOS_DB.values().stream()
+		return PRODUCTOS.values().stream()
 				.filter(x -> x.isDescatalogado())
 				.toList(); 
 	}
@@ -95,14 +95,14 @@ public class ProductoServicesImpl implements ProductoServices {
 	@Override
 	public List<Producto> getByCategoria(Categoria categoria) {
 		
-		return PRODUCTOS_DB.values().stream()
+		return PRODUCTOS.values().stream()
 				.filter(x -> x.getCategoria().equals(categoria))
 				.toList();
 	}
 
 	@Override
 	public int getNumeroTotalProductos() {
-		return PRODUCTOS_DB.size();
+		return PRODUCTOS.size();
 	}
 
 	@Override
@@ -261,16 +261,16 @@ public class ProductoServicesImpl implements ProductoServices {
 		p10.setFechaAlta(fecha4);
 		p10.setDescatalogado(false);
 		
-		PRODUCTOS_DB.put(p1.getCodigo(), p1);
-		PRODUCTOS_DB.put(p2.getCodigo(), p2);
-		PRODUCTOS_DB.put(p3.getCodigo(), p3);
-		PRODUCTOS_DB.put(p4.getCodigo(), p4);
-		PRODUCTOS_DB.put(p5.getCodigo(), p5);
-		PRODUCTOS_DB.put(p6.getCodigo(), p6);
-		PRODUCTOS_DB.put(p7.getCodigo(), p7);
-		PRODUCTOS_DB.put(p8.getCodigo(), p8);
-		PRODUCTOS_DB.put(p9.getCodigo(), p9);
-		PRODUCTOS_DB.put(p10.getCodigo(), p10);
+		PRODUCTOS.put(p1.getCodigo(), p1);
+		PRODUCTOS.put(p2.getCodigo(), p2);
+		PRODUCTOS.put(p3.getCodigo(), p3);
+		PRODUCTOS.put(p4.getCodigo(), p4);
+		PRODUCTOS.put(p5.getCodigo(), p5);
+		PRODUCTOS.put(p6.getCodigo(), p6);
+		PRODUCTOS.put(p7.getCodigo(), p7);
+		PRODUCTOS.put(p8.getCodigo(), p8);
+		PRODUCTOS.put(p9.getCodigo(), p9);
+		PRODUCTOS.put(p10.getCodigo(), p10);
 		
 	}
 

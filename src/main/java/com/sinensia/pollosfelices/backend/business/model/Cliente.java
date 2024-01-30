@@ -15,10 +15,5 @@ public class Cliente extends Persona {
 	public void setTarjetaGold(boolean tarjetaGold) {
 		this.tarjetaGold = tarjetaGold;
 	}
-
-	@Override
-	public String toString() {
-		return "Cliente [tarjetaGold=" + tarjetaGold + ", toString()=" + super.toString() + "]";
-	}
 	
 }

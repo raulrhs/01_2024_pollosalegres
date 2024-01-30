@@ -26,10 +26,5 @@ public class LineaPedido implements Serializable {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-
-	@Override
-	public String toString() {
-		return "LineaPedido [producto=" + producto + ", cantidad=" + cantidad + "]";
-	}
-
+	
 }
