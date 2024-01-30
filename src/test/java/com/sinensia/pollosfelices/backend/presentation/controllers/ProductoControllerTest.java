@@ -66,9 +66,9 @@ public class ProductoControllerTest {
 	@Test
 	void solicitamos_producto_EXISTENTE_a_partir_de_su_codigo() throws Exception {
 		
-		when(productoServices.read(100L)).thenReturn(Optional.of(producto1));
+		when(productoServices.read(1011L)).thenReturn(Optional.of(producto1));
 		
-		MvcResult respuesta = miniPostman.perform(get("/productos/1001"))
+		MvcResult respuesta = miniPostman.perform(get("/productos/1011"))
 											.andExpect(status().isOk())
 											.andReturn();
 		
@@ -160,24 +160,24 @@ public class ProductoControllerTest {
 		c2.setId(31L);
 		c2.setNombre("SIDRA");
 
-		Producto p1 = new Producto();
-		Producto p2 = new Producto();
+		producto1 = new Producto();
+		producto2 = new Producto();
 
-		p1.setCodigo(1011L);
-		p1.setNombre("Tortilla Vegana");
-		p1.setDescripcion("En vez de huevos hay garbanzos.");
-		p1.setPrecio(10);
-		p1.setCategoria(c1);
-		p1.setFechaAlta(fecha1);
-		p1.setDescatalogado(false);
+		producto1.setCodigo(1011L);
+		producto1.setNombre("Tortilla Vegana");
+		producto1.setDescripcion("En vez de huevos hay garbanzos.");
+		producto1.setPrecio(10);
+		producto1.setCategoria(c1);
+		producto1.setFechaAlta(fecha1);
+		producto1.setDescatalogado(false);
 
-		p2.setCodigo(1012L);
-		p2.setNombre("El Gaitero");
-		p2.setDescripcion("Joroña que Joroña");
-		p2.setPrecio(8);
-		p2.setCategoria(c2);
-		p2.setFechaAlta(fecha2);
-		p2.setDescatalogado(false);
+		producto2.setCodigo(1012L);
+		producto2.setNombre("El Gaitero");
+		producto2.setDescripcion("Joroña que Joroña");
+		producto2.setPrecio(8);
+		producto2.setCategoria(c2);
+		producto2.setFechaAlta(fecha2);
+		producto2.setDescatalogado(false);
 
 	}
 }
