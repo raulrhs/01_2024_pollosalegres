@@ -101,6 +101,23 @@ public class EstablecimientoControllerTest {
 	}
 	
 	@Test
+	void solicitamos_establecimiento_con_PARAMETRO_NO_VALIDO_a_partir_de_su_codigo() throws Exception {
+		
+		MvcResult respuesta = miniPostman.perform(get("/establecimientos/hola"))
+											.andExpect(status().isBadRequest())
+											.andReturn();
+		
+		RespuestaError respuestaError = new RespuestaError("El parámetro hola es de tipo java.lang.String - Se requiere un parámetro de tipo Long");
+		
+		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
+		
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+		
+	}
+	
+	
+	@Test
 	void creamos_establecimiento_ok() throws Exception {
 		
 		establecimiento1.setCodigo(null);
