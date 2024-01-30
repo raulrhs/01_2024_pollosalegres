@@ -1,7 +1,9 @@
 package com.sinensia.pollosfelices.backend.presentation.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -54,7 +55,9 @@ class CamareroControllerTest {
 
 		when(camareroServices.getAll()).thenReturn(camareros);
 
-		MvcResult respuesta = miniPostman.perform(get("/camareros")).andExpect(status().isOk()).andReturn();
+		MvcResult respuesta = miniPostman.perform(get("/camareros"))
+				 						 .andExpect(status().isOk())
+				 						 .andReturn();
 
 		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		String responseBodyEsperada = objectMapper.writeValueAsString(camareros);
@@ -70,8 +73,8 @@ class CamareroControllerTest {
 		when(camareroServices.getByNombreLikeIgnoreCase("a")).thenReturn(camareros);
 
 		MvcResult respuesta = miniPostman.perform(get("/camareros").param("nombre", "a"))
-											.andExpect(status().isOk())
-											.andReturn();
+										 .andExpect(status().isOk())
+										 .andReturn();
 
 		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		String responseBodyEsperada = objectMapper.writeValueAsString(camareros);
@@ -85,8 +88,8 @@ class CamareroControllerTest {
 		when(camareroServices.read(101L)).thenReturn(Optional.of(camarero2));
 		
 		MvcResult respuesta = miniPostman.perform(get("/camareros/101"))
-											.andExpect(status().isOk())
-											.andReturn();
+										 .andExpect(status().isOk())
+										 .andReturn();
 		
 		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		String responseBodyEsperada = objectMapper.writeValueAsString(camarero2);
@@ -100,8 +103,8 @@ class CamareroControllerTest {
 		when(camareroServices.read(101L)).thenReturn(Optional.empty());
 		
 		MvcResult respuesta = miniPostman.perform(get("/camareros/101"))
-											.andExpect(status().isNotFound())
-											.andReturn();
+										 .andExpect(status().isNotFound())
+										 .andReturn();
 		
 		RespuestaError respuestaError = new RespuestaError("No existe el camarero 101");
 		
@@ -112,26 +115,31 @@ class CamareroControllerTest {
 	}
 	
 	@Test
-	void solicitamos_eliminar_camarero_a_partir_de_su_id_OK() throws Exception{
+	void solicitamos_eliminar_camarero_EXISTENTE_a_partir_de_su_id() throws Exception{
 		
-	    String requestBody = objectMapper.writeValueAsString(101L);
-
-	    MvcResult respuesta = miniPostman.perform(delete("/camareros/101")
-	    		.content(requestBody).contentType("application/json"))
-	            .andExpect(status().isNoContent())
-	            .andReturn();
-
-	    String responseBody = (String.valueOf(respuesta.getResponse().getStatus()));
-	    String responseBodyEsperada = objectMapper.writeValueAsString(204);
-
-	    assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+	    miniPostman.perform(delete("/camareros/101"))
+	               .andExpect(status().isNoContent());
+	           
+	    verify(camareroServices, times(1)).delete(101L);
 	}
 	
 	@Test
-	@Disabled
-	void solicitamos_eliminar_camarero_a_partir_de_su_id_ERROR() throws Exception{
-		//TODO
-		fail("Not implemented yet");
+	void solicitamos_eliminar_camarero_NO_EXISTENTE_a_partir_de_su_id() throws Exception{
+
+		doThrow(new IllegalStateException("EL MENSAJE")).when(camareroServices).delete(101L);
+		
+		MvcResult respuesta = miniPostman.perform(delete("/camareros/101"))
+										 .andExpect(status().isNotFound())
+										 .andReturn();
+	
+		verify(camareroServices, times(1)).delete(101L);
+		
+		RespuestaError respuestaError = new RespuestaError("EL MENSAJE");
+		
+		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
+		
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);		
 	}
 
 	// *************************************************
