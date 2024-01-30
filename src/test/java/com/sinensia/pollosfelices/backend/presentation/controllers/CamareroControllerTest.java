@@ -7,6 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -20,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sinensia.pollosfelices.backend.business.model.Camarero;
 import com.sinensia.pollosfelices.backend.business.model.DatosContacto;
@@ -115,7 +119,75 @@ class CamareroControllerTest {
 	}
 	
 	@Test
-	void solicitamos_eliminar_camarero_EXISTENTE_a_partir_de_su_id() throws Exception{
+	void creamos_camarero_ok() throws Exception {
+		
+		camarero1.setId(null);
+		
+		when(camareroServices.create(camarero1)).thenReturn(123456L);
+		
+		String requestBody = objectMapper.writeValueAsString(camarero1);
+		
+		miniPostman.perform(post("/camareros").content(requestBody).contentType("application/json"))
+							.andExpect(status().isCreated())
+							.andExpect(header().string("Location","http://localhost/camareros/123456"));
+						
+	}
+	
+	
+	@Test
+	void creamos_camarero_con_id_NO_null() throws Exception {
+		
+		when(camareroServices.create(camarero1)).thenThrow(new IllegalStateException("**** EL MENSAJE ****"));
+		
+		String requestBody = objectMapper.writeValueAsString(camarero1);
+		
+		MvcResult respuesta = miniPostman.perform(post("/camareros").content(requestBody).contentType("application/json"))
+											.andExpect(status().isBadRequest())
+											.andReturn();
+		
+		RespuestaError respuestaError = new RespuestaError("**** EL MENSAJE ****");
+		
+		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
+		
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+	}
+	
+	@Test
+	void actualizamos_camarero_ok() throws Exception {
+		
+		String requestBody = objectMapper.writeValueAsString(camarero1);
+		
+		miniPostman.perform(put("/camareros/100").content(requestBody).contentType("application/json"))
+						.andExpect(status().isNoContent());
+		
+		verify(camareroServices, times(1)).update(camarero1);
+	}
+	
+	@Test
+	void actualizamos_camarero_con_id_null() throws Exception {
+		
+		doThrow(new IllegalStateException("EL MENSAJE")).when(camareroServices).update(camarero1);
+		
+		String requestBody = objectMapper.writeValueAsString(camarero1);
+		
+		MvcResult respuesta = miniPostman.perform(put("/camareros/100").content(requestBody).contentType("application/json"))
+				 							.andExpect(status().isNotFound())
+				 							.andReturn();
+
+		verify(camareroServices, times(1)).update(camarero1);
+
+		RespuestaError respuestaError = new RespuestaError("EL MENSAJE");
+
+		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
+
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);	
+		
+	}
+		
+	@Test
+	void eliminamos_camarero_EXISTENTE_a_partir_de_su_id() throws Exception{
 		
 	    miniPostman.perform(delete("/camareros/101"))
 	               .andExpect(status().isNoContent());
@@ -124,7 +196,7 @@ class CamareroControllerTest {
 	}
 	
 	@Test
-	void solicitamos_eliminar_camarero_NO_EXISTENTE_a_partir_de_su_id() throws Exception{
+	void eliminamos_camarero_NO_EXISTENTE_a_partir_de_su_id() throws Exception{
 
 		doThrow(new IllegalStateException("EL MENSAJE")).when(camareroServices).delete(101L);
 		
