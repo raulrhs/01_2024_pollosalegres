@@ -46,7 +46,7 @@ public class EstablecimientoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Establecimiento establecimiento, UriComponentsBuilder ucb) {
+	public ResponseEntity<Object> create(@RequestBody Establecimiento establecimiento, UriComponentsBuilder ucb) {
 		
 		Long nuevoCodigo = null;
 		

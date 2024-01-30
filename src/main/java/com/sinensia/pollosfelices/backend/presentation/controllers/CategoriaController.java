@@ -46,7 +46,7 @@ public class CategoriaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Categoria categoria, UriComponentsBuilder ucb) {
+	public ResponseEntity<Object> create(@RequestBody Categoria categoria, UriComponentsBuilder ucb) {
 		
 		Long nuevoId = null;
 		

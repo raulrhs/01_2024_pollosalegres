@@ -59,7 +59,7 @@ public class CamareroController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Camarero camarero, UriComponentsBuilder ucb) {
+	public ResponseEntity<Object> create(@RequestBody Camarero camarero, UriComponentsBuilder ucb) {
 		
 		Long nuevoId = null;
 		
