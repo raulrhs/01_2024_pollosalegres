@@ -60,6 +60,5 @@ public class CategoriaController {
 		
 		return ResponseEntity.created(uri).build();
 	}
-	
-	
+
 }
