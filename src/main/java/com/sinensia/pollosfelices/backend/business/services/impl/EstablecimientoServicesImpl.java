@@ -105,7 +105,7 @@ public class EstablecimientoServicesImpl implements EstablecimientoServices {
 			fecha1 = sdf.parse("14/04/2005");
 			fecha2 = sdf.parse("24/11/1999");
 		} catch (ParseException e) {
-			
+			// no code here
 		}
 	
 		establecimiento1.setFechaInauguracion(fecha1);

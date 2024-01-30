@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class PresentationException extends RuntimeException {
 
-	private HttpStatus httpStatus;
+	private final HttpStatus httpStatus;
 	
 	public PresentationException(String mensaje, HttpStatus httpStatus) {
 		super(mensaje);

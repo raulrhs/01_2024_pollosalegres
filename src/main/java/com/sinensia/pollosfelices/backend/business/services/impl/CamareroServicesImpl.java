@@ -85,7 +85,7 @@ public class CamareroServicesImpl implements CamareroServices {
 
 	@Override
 	public List<Camarero> getAll() {
-		return new ArrayList<Camarero>(CAMAREROS_DB.values());
+		return new ArrayList<>(CAMAREROS_DB.values());
 	}
 
 	@Override
