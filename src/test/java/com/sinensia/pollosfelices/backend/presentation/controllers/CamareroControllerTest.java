@@ -24,6 +24,7 @@ import com.sinensia.pollosfelices.backend.business.model.Camarero;
 import com.sinensia.pollosfelices.backend.business.model.DatosContacto;
 import com.sinensia.pollosfelices.backend.business.model.Direccion;
 import com.sinensia.pollosfelices.backend.business.services.CamareroServices;
+import com.sinensia.pollosfelices.backend.presentation.config.RespuestaError;
 
 @WebMvcTest(value = CamareroController.class)
 class CamareroControllerTest {
@@ -48,6 +49,7 @@ class CamareroControllerTest {
 
 	@Test
 	void solicitamos_todos_los_camareros() throws Exception {
+		
 		List<Camarero> camareros = Arrays.asList(camarero1, camarero2, camarero3);
 
 		when(camareroServices.getAll()).thenReturn(camareros);
@@ -58,7 +60,23 @@ class CamareroControllerTest {
 		String responseBodyEsperada = objectMapper.writeValueAsString(camareros);
 
 		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+	}
+	
+	@Test
+	void solicitamos_camareros_por_nombre() throws Exception {
+		
+		List<Camarero> camareros = Arrays.asList(camarero1, camarero2, camarero3);
 
+		when(camareroServices.getByNombreLikeIgnoreCase("a")).thenReturn(camareros);
+
+		MvcResult respuesta = miniPostman.perform(get("/camareros").param("nombre", "a"))
+											.andExpect(status().isOk())
+											.andReturn();
+
+		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		String responseBodyEsperada = objectMapper.writeValueAsString(camareros);
+
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
 	}
 
 	@Test
@@ -66,13 +84,29 @@ class CamareroControllerTest {
 		
 		when(camareroServices.read(101L)).thenReturn(Optional.of(camarero2));
 		
-		
 		MvcResult respuesta = miniPostman.perform(get("/camareros/101"))
 											.andExpect(status().isOk())
 											.andReturn();
 		
 		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		String responseBodyEsperada = objectMapper.writeValueAsString(camarero2);
+		
+		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+	}
+	
+	@Test
+	void solicitamos_camarero_NO_EXISTINTE_a_partir_de_su_id() throws Exception{
+		
+		when(camareroServices.read(101L)).thenReturn(Optional.empty());
+		
+		MvcResult respuesta = miniPostman.perform(get("/camareros/101"))
+											.andExpect(status().isNotFound())
+											.andReturn();
+		
+		RespuestaError respuestaError = new RespuestaError("No existe el camarero 101");
+		
+		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
 		
 		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
 	}
