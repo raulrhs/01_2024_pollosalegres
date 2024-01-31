@@ -7,18 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sinensia.pollosfelices.backend.business.model.dtos.EstadisticaDTO1;
-import com.sinensia.pollosfelices.backend.business.services.ProductoServices;
+import com.sinensia.pollosfelices.backend.business.model.Categoria;
+import com.sinensia.pollosfelices.backend.integration.repositories.CategoriaRepository;
 
 @RestController
 @RequestMapping("/pruebas")
 public class BorrameController {
 
 	@Autowired
-	private ProductoServices productoServices;
+	private CategoriaRepository categoriaRepository;
 	
-	@GetMapping("/estadisticasdto1")
-	public List<EstadisticaDTO1> getEstadisticasDTO1(){
-		return productoServices.getEstadisticasDTO1();
+	@GetMapping("/categorias")
+	public List<Categoria> getCategorias(){
+		return categoriaRepository.findAll();
 	}
+	
 }
