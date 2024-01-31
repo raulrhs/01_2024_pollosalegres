@@ -128,8 +128,8 @@ class CamareroControllerTest {
 		String requestBody = objectMapper.writeValueAsString(camarero1);
 		
 		miniPostman.perform(post("/camareros").content(requestBody).contentType("application/json"))
-							.andExpect(status().isCreated())
-							.andExpect(header().string("Location","http://localhost/camareros/123456"));					
+				   .andExpect(status().isCreated())
+				   .andExpect(header().string("Location","http://localhost/camareros/123456"));					
 	}
 	
 	
@@ -158,7 +158,7 @@ class CamareroControllerTest {
 		String requestBody = objectMapper.writeValueAsString(camarero1);
 		
 		miniPostman.perform(put("/camareros/100").content(requestBody).contentType("application/json"))
-						.andExpect(status().isNoContent());
+				   .andExpect(status().isNoContent());
 		
 		verify(camareroServices, times(1)).update(camarero1);
 	}
