@@ -5,39 +5,84 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sinensia.pollosfelices.backend.business.model.Categoria;
 import com.sinensia.pollosfelices.backend.business.model.Producto;
 import com.sinensia.pollosfelices.backend.business.model.dtos.EstadisticaDTO1;
 import com.sinensia.pollosfelices.backend.business.model.dtos.EstadisticaDTO2;
 import com.sinensia.pollosfelices.backend.business.services.ProductoServices;
+import com.sinensia.pollosfelices.backend.integration.model.ProductoPL;
+import com.sinensia.pollosfelices.backend.integration.repositories.ProductoPLRepository;
 
 @Service
 public class ProductoServicesImpl implements ProductoServices {
 
+	private ProductoPLRepository productoPLRepository;
+	private DozerBeanMapper mapper;
+	
+	public ProductoServicesImpl(ProductoPLRepository productoPLRepository, DozerBeanMapper mapper) {
+		this.productoPLRepository = productoPLRepository;
+		this.mapper = mapper;
+	}
+	
+	@Transactional
 	@Override
 	public Long create(Producto producto) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(producto.getCodigo() != null) {
+			throw new IllegalStateException("Para crear un producto el codigo ha de ser null");
+		}
+		
+		ProductoPL productoPL = mapper.map(producto, ProductoPL.class);
+		productoPL.setCodigo(System.currentTimeMillis());
+		
+		return productoPLRepository.save(productoPL).getCodigo();
+		
 	}
 
 	@Override
 	public Optional<Producto> read(Long codigo) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		Optional<ProductoPL> optional = productoPLRepository.findById(codigo);
+		
+		Producto producto = null;
+		
+		if(optional.isPresent()) {
+			producto = mapper.map(optional.get(), Producto.class);
+		}
+		
+		return Optional.ofNullable(producto);
 	}
 
+	@Transactional
 	@Override
 	public void update(Producto producto) {
-		// TODO Auto-generated method stub
+		
+		Long codigo = producto.getCodigo();
+
+		if(codigo == null) {
+			throw new IllegalStateException("No se puede actualizar un producto con codigo null");
+		}
+
+		boolean existe = productoPLRepository.existsById(codigo);
+		
+		if(!existe) {
+			throw new IllegalStateException("El producto con codigo " + codigo + " no existe. No se puede actualizar");
+		}
+
+		productoPLRepository.save(mapper.map(producto, ProductoPL.class));
 		
 	}
 
 	@Override
 	public List<Producto> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return productoPLRepository.findAll().stream()
+				.map(x -> mapper.map(x, Producto.class))
+				.toList();
 	}
 
 	@Override
@@ -66,8 +111,7 @@ public class ProductoServicesImpl implements ProductoServices {
 
 	@Override
 	public int getNumeroTotalProductos() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) productoPLRepository.count();
 	}
 
 	@Override

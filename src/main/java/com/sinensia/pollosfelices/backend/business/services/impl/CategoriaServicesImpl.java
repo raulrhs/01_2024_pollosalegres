@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sinensia.pollosfelices.backend.business.model.Categoria;
@@ -17,17 +16,16 @@ import jakarta.transaction.Transactional;
 @Service
 public class CategoriaServicesImpl implements CategoriaServices{
 
-	@Autowired
-	private DozerBeanMapper mapper;
-	
 	private CategoriaPLRepository categoriaPLRepository;
-	
-	public CategoriaServicesImpl(CategoriaPLRepository categoriaRepository) {
+	private DozerBeanMapper mapper;
+
+	public CategoriaServicesImpl(CategoriaPLRepository categoriaRepository, DozerBeanMapper mapper) {
 		this.categoriaPLRepository = categoriaRepository;
+		this.mapper = mapper;
 	}
 	
-	@Override
 	@Transactional
+	@Override
 	public Long create(Categoria categoria) {
 	
 		if(categoria.getId() != null) {
@@ -37,9 +35,7 @@ public class CategoriaServicesImpl implements CategoriaServices{
 		CategoriaPL categoriaPL = mapper.map(categoria, CategoriaPL.class);
 		categoriaPL.setId(System.currentTimeMillis());
 		
-		CategoriaPL createdCategoriaPL = categoriaPLRepository.save(categoriaPL);
-		
-		return createdCategoriaPL.getId();
+		return categoriaPLRepository.save(categoriaPL).getId();
 	}
 
 	@Override
@@ -50,7 +46,7 @@ public class CategoriaServicesImpl implements CategoriaServices{
 		Categoria categoria = null;
 		
 		if(optional.isPresent()) {
-			categoria = mapper.map(categoria, Categoria.class);
+			categoria = mapper.map(optional.get(), Categoria.class);
 		}
 		
 		return Optional.ofNullable(categoria);	

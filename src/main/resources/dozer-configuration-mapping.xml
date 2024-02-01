@@ -13,6 +13,31 @@
 			<a>nombre</a>
 			<b>name</b>
 		</field>
-	</mapping>   
-	                  
+	</mapping>  
+	
+	<mapping>
+		<class-a>com.sinensia.pollosfelices.backend.business.model.Producto</class-a>
+		<class-b>com.sinensia.pollosfelices.backend.integration.model.ProductoPL</class-b>
+	</mapping> 
+	
+	<mapping>
+		<class-a>com.sinensia.pollosfelices.backend.business.model.Camarero</class-a>
+		<class-b>com.sinensia.pollosfelices.backend.integration.model.CamareroPL</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.sinensia.pollosfelices.backend.business.model.Cliente</class-a>
+		<class-b>com.sinensia.pollosfelices.backend.integration.model.ClientePL</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.sinensia.pollosfelices.backend.business.model.Establecimiento</class-a>
+		<class-b>com.sinensia.pollosfelices.backend.integration.model.EstablecimientoPL</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.sinensia.pollosfelices.backend.business.model.Pedido</class-a>
+		<class-b>com.sinensia.pollosfelices.backend.integration.model.PedidoPL</class-b>
+	</mapping>
+	
 </mappings>
