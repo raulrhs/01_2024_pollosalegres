@@ -24,11 +24,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sinensia.pollosfelices.backend.business.model.DatosContacto;
-import com.sinensia.pollosfelices.backend.business.model.Direccion;
-import com.sinensia.pollosfelices.backend.business.model.Establecimiento;
-import com.sinensia.pollosfelices.backend.business.services.EstablecimientoServices;
-import com.sinensia.pollosfelices.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.business.model.DatosContacto;
+import com.sinensia.pollosalegres.backend.business.model.Direccion;
+import com.sinensia.pollosalegres.backend.business.model.Establecimiento;
+import com.sinensia.pollosalegres.backend.business.services.EstablecimientoServices;
+import com.sinensia.pollosalegres.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.presentation.controllers.EstablecimientoController;
 
 @WebMvcTest(value=EstablecimientoController.class)
 class EstablecimientoControllerTest {
