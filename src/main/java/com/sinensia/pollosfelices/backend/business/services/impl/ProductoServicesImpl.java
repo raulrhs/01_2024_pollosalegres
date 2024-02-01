@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.sinensia.pollosfelices.backend.business.model.Categoria;
@@ -15,7 +14,6 @@ import com.sinensia.pollosfelices.backend.business.model.dtos.EstadisticaDTO2;
 import com.sinensia.pollosfelices.backend.business.services.ProductoServices;
 
 @Service
-@Primary
 public class ProductoServicesImpl implements ProductoServices {
 
 	@Override

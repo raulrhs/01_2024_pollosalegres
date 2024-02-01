@@ -3,14 +3,12 @@ package com.sinensia.pollosfelices.backend.business.services.impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.sinensia.pollosfelices.backend.business.model.Establecimiento;
 import com.sinensia.pollosfelices.backend.business.services.EstablecimientoServices;
 
 @Service
-@Primary
 public class EstablecimientoServicesImpl implements EstablecimientoServices {
 
 	@Override

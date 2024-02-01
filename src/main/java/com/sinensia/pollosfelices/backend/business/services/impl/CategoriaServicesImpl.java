@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.sinensia.pollosfelices.backend.business.model.Categoria;
@@ -16,7 +15,6 @@ import com.sinensia.pollosfelices.backend.integration.repositories.CategoriaPLRe
 import jakarta.transaction.Transactional;
 
 @Service
-@Primary
 public class CategoriaServicesImpl implements CategoriaServices{
 
 	@Autowired
