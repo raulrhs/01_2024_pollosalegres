@@ -1,14 +1,17 @@
-package com.sinensia.pollosfelices.backend.business.model;
+package com.sinensia.pollosfelices.backend.integration.model;
 
 import java.io.Serializable;
 
-public class DatosContacto implements Serializable {
+import jakarta.persistence.Embeddable;
+
+@Embeddable
+public class DatosContactoPL implements Serializable {
 
 	private String telefono;
 	private String fax;
 	private String email;
 	
-	public DatosContacto() {
+	public DatosContactoPL() {
 		// No args constructor
 	}
 

@@ -1,16 +1,23 @@
-package com.sinensia.pollosfelices.backend.business.model;
+package com.sinensia.pollosfelices.backend.integration.model;
 
 import java.io.Serializable;
 
-public class Direccion implements Serializable {
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
+@Embeddable
+public class DireccionPL implements Serializable {
 
 	private String direccion;
 	private String poblacion;
+	
+	@Column(name="CODIGO_POSTAL")
 	private String codigoPostal;
+	
 	private String provincia;
 	private String pais;
 	
-	public Direccion() {
+	public DireccionPL() {
 		// No args constructor
 	}
 

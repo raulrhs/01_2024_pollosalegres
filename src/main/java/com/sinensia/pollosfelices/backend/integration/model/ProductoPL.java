@@ -1,21 +1,39 @@
-package com.sinensia.pollosfelices.backend.business.model;
+package com.sinensia.pollosfelices.backend.integration.model;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Producto implements Serializable {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
+@Entity
+@Table(name="PRODUCTOS")
+public class ProductoPL implements Serializable {
+
+	@Id
 	private Long codigo;
+	
 	private String nombre;
 	private String descripcion;
+	
+	@Temporal(TemporalType.DATE)
 	private Date fechaAlta;
+	
 	private double precio;
-	private Categoria categoria;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_CATEGORIA")
+	private CategoriaPL categoria;
 	
 	private boolean descatalogado;
 	
-	public Producto() {
+	public ProductoPL() {
 		// No args constructor
 	}
 
@@ -59,11 +77,11 @@ public class Producto implements Serializable {
 		this.precio = precio;
 	}
 
-	public Categoria getCategoria() {
+	public CategoriaPL getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(CategoriaPL categoria) {
 		this.categoria = categoria;
 	}
 	
@@ -85,10 +103,10 @@ public class Producto implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof Producto)) {
+		if (!(obj instanceof ProductoPL)) {
 			return false;
 		}
-		Producto other = (Producto) obj;
+		ProductoPL other = (ProductoPL) obj;
 		return Objects.equals(codigo, other.codigo);
 	}
 

@@ -1,19 +1,37 @@
-package com.sinensia.pollosfelices.backend.business.model;
+package com.sinensia.pollosfelices.backend.integration.model;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Persona implements Serializable {
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name="PERSONAS")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class PersonaPL implements Serializable {
+
+	@Id
+	@Column(name="CODIGO")
 	private Long id;
+	
 	private String dni;
 	private String nombre;
 	private String apellido1;
 	private String apellido2;
-	private Direccion direccion;
-	private DatosContacto datosContacto;
 	
-	protected Persona() {
+	@Embedded
+	private DireccionPL direccion;
+	
+	@Embedded
+	private DatosContactoPL datosContacto;
+	
+	protected PersonaPL() {
 		// No args constructor
 	}
 
@@ -57,19 +75,19 @@ public abstract class Persona implements Serializable {
 		this.apellido2 = apellido2;
 	}
 
-	public Direccion getDireccion() {
+	public DireccionPL getDireccion() {
 		return direccion;
 	}
 
-	public void setDireccion(Direccion direccion) {
+	public void setDireccion(DireccionPL direccion) {
 		this.direccion = direccion;
 	}
 
-	public DatosContacto getDatosContacto() {
+	public DatosContactoPL getDatosContacto() {
 		return datosContacto;
 	}
 
-	public void setDatosContacto(DatosContacto datosContacto) {
+	public void setDatosContacto(DatosContactoPL datosContacto) {
 		this.datosContacto = datosContacto;
 	}
 
@@ -83,10 +101,10 @@ public abstract class Persona implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof Persona)) {
+		if (!(obj instanceof PersonaPL)) {
 			return false;
 		}
-		Persona other = (Persona) obj;
+		PersonaPL other = (PersonaPL) obj;
 		return Objects.equals(id, other.id);
 	}
 
