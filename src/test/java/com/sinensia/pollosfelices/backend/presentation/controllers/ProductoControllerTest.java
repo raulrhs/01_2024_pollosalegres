@@ -27,10 +27,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sinensia.pollosfelices.backend.business.model.Categoria;
-import com.sinensia.pollosfelices.backend.business.model.Producto;
-import com.sinensia.pollosfelices.backend.business.services.ProductoServices;
-import com.sinensia.pollosfelices.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.business.model.Categoria;
+import com.sinensia.pollosalegres.backend.business.model.Producto;
+import com.sinensia.pollosalegres.backend.business.services.ProductoServices;
+import com.sinensia.pollosalegres.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.presentation.controllers.ProductoController;
 
 @WebMvcTest(value = ProductoController.class)
 class ProductoControllerTest {
