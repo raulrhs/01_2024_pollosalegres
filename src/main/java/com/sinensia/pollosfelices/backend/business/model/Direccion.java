@@ -2,11 +2,18 @@ package com.sinensia.pollosfelices.backend.business.model;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class Direccion implements Serializable {
 
 	private String direccion;
 	private String poblacion;
+	
+	@Column(name="CODIGO_POSTAL")
 	private String codigoPostal;
+	
 	private String provincia;
 	private String pais;
 	
