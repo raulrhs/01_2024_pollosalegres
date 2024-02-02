@@ -69,11 +69,7 @@ public class CamareroServicesImpl implements CamareroServices {
 	@Transactional
 	@Override
 	public void update(Camarero camarero) {
-		
-		// TODO Probar con Postman a ver que pasa con la licencia...
-		
-		// TODO Mostrar la magia de la transaccion y el contexto de persistencia.
-		
+	
 		Long id = camarero.getId();
 
 		if(id == null) {
@@ -87,11 +83,11 @@ public class CamareroServicesImpl implements CamareroServices {
 		}
 
 		camareroPLRepository.save(mapper.map(camarero, CamareroPL.class));
-		
+	
 	}
 
-	@Override
 	@Transactional
+	@Override
 	public void delete(Long id) {
 		camareroPLRepository.deleteById(id);
 	}
