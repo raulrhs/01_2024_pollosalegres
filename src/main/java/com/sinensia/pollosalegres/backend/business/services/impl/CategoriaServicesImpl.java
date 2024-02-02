@@ -57,8 +57,7 @@ public class CategoriaServicesImpl implements CategoriaServices{
 		
 		return categoriaPLRepository.findAll().stream()
 				.map(x -> mapper.map(x, Categoria.class))
-				.toList();
-				
+				.toList();			
 	}
 
 }
