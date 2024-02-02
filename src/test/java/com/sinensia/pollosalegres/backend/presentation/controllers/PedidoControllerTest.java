@@ -1,6 +1,5 @@
 package com.sinensia.pollosalegres.backend.presentation.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -11,7 +10,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -210,7 +208,6 @@ class PedidoControllerTest extends AbstractControllerTest{
 		camarero2.setDatosContacto(datosContacto2);
 		camarero2.setLicenciaManipuladorAlimentos("LMA9000238712F");
 
-		
 		cliente1.setId(102L);
 		cliente1.setDni("45099812W");
 		cliente1.setNombre("Francisco Javier");
@@ -219,7 +216,6 @@ class PedidoControllerTest extends AbstractControllerTest{
 		cliente1.setDireccion(direccion3);
 		cliente1.setDatosContacto(datosContacto3);
 		cliente1.setTarjetaGold(true);
-		
 		
 		Establecimiento establecimiento1 = new Establecimiento();
 		Establecimiento establecimiento2 = new Establecimiento();
@@ -252,7 +248,9 @@ class PedidoControllerTest extends AbstractControllerTest{
 		
 		Producto producto1 = new Producto();
 		Producto producto2 = new Producto();
-		// TODO inicializarlos (?)
+		
+		producto1.setCodigo(100L);
+		producto2.setCodigo(101L);
 		
 		LineaPedido lineaPedido1 = new LineaPedido();
 		LineaPedido lineaPedido2 = new LineaPedido();
