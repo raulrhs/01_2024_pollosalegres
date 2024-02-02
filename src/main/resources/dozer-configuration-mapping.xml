@@ -15,31 +15,4 @@
 		</field>
 	</mapping>  
 	
-<!--  	
-	<mapping>
-		<class-a>com.sinensia.pollosalegres.backend.business.model.Producto</class-a>
-		<class-b>com.sinensia.pollosalegres.backend.integration.model.ProductoPL</class-b>
-	</mapping> 
-	
-	<mapping>
-		<class-a>com.sinensia.pollosalegres.backend.business.model.Camarero</class-a>
-		<class-b>com.sinensia.pollosalegres.backend.integration.model.CamareroPL</class-b>
-	</mapping>
-	
-	<mapping>
-		<class-a>com.sinensia.pollosalegres.backend.business.model.Cliente</class-a>
-		<class-b>com.sinensia.pollosalegres.backend.integration.model.ClientePL</class-b>
-	</mapping>
-	
-	<mapping>
-		<class-a>com.sinensia.pollosalegres.backend.business.model.Establecimiento</class-a>
-		<class-b>com.sinensia.pollosalegres.backend.integration.model.EstablecimientoPL</class-b>
-	</mapping>
-	
-	<mapping>
-		<class-a>com.sinensia.pollosalegres.backend.business.model.Pedido</class-a>
-		<class-b>com.sinensia.pollosalegres.backend.integration.model.PedidoPL</class-b>
-	</mapping>
-	
--->
 </mappings>
