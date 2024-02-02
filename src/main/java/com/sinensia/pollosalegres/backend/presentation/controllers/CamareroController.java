@@ -1,6 +1,7 @@
 package com.sinensia.pollosalegres.backend.presentation.controllers;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,16 +34,30 @@ public class CamareroController {
 	}
 	
 	@GetMapping
-	public List<Camarero> getCamareros(@RequestParam(required = false) String nombre){
+	public List<Camarero> getCamareros(@RequestParam(required = false) String nombre,
+									   @RequestParam(required = false) String dni){
 		
 		List<Camarero> camareros = null;
 		
-		if(nombre == null) {
+		if(nombre == null && dni == null) {
 			camareros = camareroServices.getAll();
-		} else {
+		}
+		
+		if(nombre != null && dni == null) {
 			camareros = camareroServices.getByNombreLikeIgnoreCase(nombre);
 		}
 		
+		if(dni != null) {
+			
+			camareros = new ArrayList<>();
+			
+			Optional<Camarero> optional = camareroServices.read(dni);
+			
+			if (optional.isPresent()) {
+				camareros.add(optional.get());
+			}	
+		}
+	
 		return camareros;
 	}
 	

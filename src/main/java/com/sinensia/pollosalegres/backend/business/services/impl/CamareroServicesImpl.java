@@ -30,14 +30,11 @@ public class CamareroServicesImpl implements CamareroServices {
 		if(camarero.getId() != null) {
 			throw new IllegalStateException("Para crear un camarero el id ha de ser null");
 		}
-		
-		// TODO Comprobar si ya existe un camarero con el mismo DNI
-		// Hemos de incluir el DNI en el mensaje de error?
-		
-		boolean existeDni = false;
+	
+		boolean existeDni = camareroPLRepository.existsByDni(camarero.getDni());
 		
 		if(existeDni) {
-			throw new IllegalStateException("Ya existe un camarero con ese dni");
+			throw new IllegalStateException("Ya existe un camarero con el mismo dni");
 		}
 		
 		CamareroPL camareroPL = mapper.map(camarero, CamareroPL.class);
@@ -62,8 +59,16 @@ public class CamareroServicesImpl implements CamareroServices {
 
 	@Override
 	public Optional<Camarero> read(String dni) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		Optional<CamareroPL> optional = camareroPLRepository.findByDni(dni);
+		
+		Camarero camarero = null;
+		
+		if(optional.isPresent()) {
+			camarero = mapper.map(optional.get(), Camarero.class);
+		}
+		
+		return Optional.ofNullable(camarero);
 	}
 
 	@Transactional
@@ -99,11 +104,13 @@ public class CamareroServicesImpl implements CamareroServices {
 				.map(x -> mapper.map(x, Camarero.class))
 				.toList();
 	}
-
+	
 	@Override
 	public List<Camarero> getByNombreLikeIgnoreCase(String texto) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return camareroPLRepository.findByNombreLikeIgnoreCaseOrderById("%" + texto + "%").stream()
+				.map(x -> mapper.map(x, Camarero.class))
+				.toList();
 	}
 
 	@Override
