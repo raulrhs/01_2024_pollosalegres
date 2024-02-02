@@ -1,6 +1,5 @@
-package com.sinensia.pollosfelices.backend.presentation.controllers;
+package com.sinensia.pollosalegres.backend.presentation.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -11,36 +10,26 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import java.nio.charset.StandardCharsets;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sinensia.pollosalegres.backend.business.model.Camarero;
 import com.sinensia.pollosalegres.backend.business.model.DatosContacto;
 import com.sinensia.pollosalegres.backend.business.model.Direccion;
 import com.sinensia.pollosalegres.backend.business.services.CamareroServices;
 import com.sinensia.pollosalegres.backend.presentation.config.RespuestaError;
-import com.sinensia.pollosalegres.backend.presentation.controllers.CamareroController;
 
 @WebMvcTest(value = CamareroController.class)
-class CamareroControllerTest {
+class CamareroControllerTest extends AbstractControllerTest {
 
-	@Autowired
-	private MockMvc miniPostman;
-	
-	@Autowired
-	private ObjectMapper objectMapper;
-	
 	@MockBean
 	private CamareroServices camareroServices;
 
@@ -55,36 +44,27 @@ class CamareroControllerTest {
 
 	@Test
 	void solicitamos_todos_los_camareros() throws Exception {
-		
+
 		List<Camarero> camareros = Arrays.asList(camarero1, camarero2, camarero3);
 
 		when(camareroServices.getAll()).thenReturn(camareros);
 
-		MvcResult respuesta = miniPostman.perform(get("/camareros"))
-				 						 .andExpect(status().isOk())
-				 						 .andReturn();
+		MvcResult respuesta = mockMvc.perform(get("/camareros")).andExpect(status().isOk()).andReturn();
 
-		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
-		String responseBodyEsperada = objectMapper.writeValueAsString(camareros);
-
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+		checkResponseBody(camareros, respuesta);
 	}
-	
+
 	@Test
 	void solicitamos_camareros_por_nombre() throws Exception {
-		
+
 		List<Camarero> camareros = Arrays.asList(camarero1, camarero2, camarero3);
 
 		when(camareroServices.getByNombreLikeIgnoreCase("a")).thenReturn(camareros);
 
-		MvcResult respuesta = miniPostman.perform(get("/camareros").param("nombre", "a"))
-										 .andExpect(status().isOk())
-										 .andReturn();
+		MvcResult respuesta = mockMvc.perform(get("/camareros").param("nombre", "a")).andExpect(status().isOk())
+				.andReturn();
 
-		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
-		String responseBodyEsperada = objectMapper.writeValueAsString(camareros);
-
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+		checkResponseBody(camareros, respuesta);
 	}
 
 	@Test
@@ -92,48 +72,39 @@ class CamareroControllerTest {
 		
 		when(camareroServices.read(101L)).thenReturn(Optional.of(camarero2));
 		
-		MvcResult respuesta = miniPostman.perform(get("/camareros/101"))
+		MvcResult respuesta = mockMvc.perform(get("/camareros/101"))
 										 .andExpect(status().isOk())
 										 .andReturn();
 		
-		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
-		String responseBodyEsperada = objectMapper.writeValueAsString(camarero2);
-		
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+		checkResponseBody(camarero2, respuesta);
 	}
-	
+
 	@Test
 	void solicitamos_camarero_NO_EXISTINTE_a_partir_de_su_id() throws Exception{
 		
 		when(camareroServices.read(101L)).thenReturn(Optional.empty());
 		
-		MvcResult respuesta = miniPostman.perform(get("/camareros/101"))
+		MvcResult respuesta = mockMvc.perform(get("/camareros/101"))
 										 .andExpect(status().isNotFound())
 										 .andReturn();
 		
-		RespuestaError respuestaError = new RespuestaError("No existe el camarero 101");
-		
-		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
-		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
-		
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+		checkResponseBody(new RespuestaError("No existe el camarero 101"), respuesta);
 	}
-	
+
 	@Test
 	void creamos_camarero_ok() throws Exception {
-		
+
 		camarero1.setId(null);
-		
+
 		when(camareroServices.create(camarero1)).thenReturn(123456L);
-		
+
 		String requestBody = objectMapper.writeValueAsString(camarero1);
-		
-		miniPostman.perform(post("/camareros").content(requestBody).contentType("application/json"))
-				   .andExpect(status().isCreated())
-				   .andExpect(header().string("Location","http://localhost/camareros/123456"));					
+
+		mockMvc.perform(post("/camareros").content(requestBody).contentType("application/json"))
+				.andExpect(status().isCreated())
+				.andExpect(header().string("Location", "http://localhost/camareros/123456"));
 	}
-	
-	
+
 	@Test
 	void creamos_camarero_con_id_NO_null() throws Exception {
 		
@@ -141,76 +112,58 @@ class CamareroControllerTest {
 		
 		String requestBody = objectMapper.writeValueAsString(camarero1);
 		
-		MvcResult respuesta = miniPostman.perform(post("/camareros").content(requestBody).contentType("application/json"))
+		MvcResult respuesta = mockMvc.perform(post("/camareros").content(requestBody).contentType("application/json"))
 											.andExpect(status().isBadRequest())
 											.andReturn();
 		
-		RespuestaError respuestaError = new RespuestaError("**** EL MENSAJE ****");
-		
-		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
-		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
-		
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);
+		checkResponseBody(new RespuestaError("**** EL MENSAJE ****"), respuesta);
 	}
-	
+
 	@Test
 	void actualizamos_camarero_ok() throws Exception {
-		
+
 		String requestBody = objectMapper.writeValueAsString(camarero1);
-		
-		miniPostman.perform(put("/camareros/100").content(requestBody).contentType("application/json"))
-				   .andExpect(status().isNoContent());
-		
+
+		mockMvc.perform(put("/camareros/100").content(requestBody).contentType("application/json"))
+				.andExpect(status().isNoContent());
+
 		verify(camareroServices, times(1)).update(camarero1);
 	}
-	
+
 	@Test
 	void actualizamos_camarero_con_id_null() throws Exception {
-		
+
 		doThrow(new IllegalStateException("EL MENSAJE")).when(camareroServices).update(camarero1);
-		
+
 		String requestBody = objectMapper.writeValueAsString(camarero1);
-		
-		MvcResult respuesta = miniPostman.perform(put("/camareros/100").content(requestBody).contentType("application/json"))
-				 							.andExpect(status().isNotFound())
-				 							.andReturn();
+
+		MvcResult respuesta = mockMvc
+				.perform(put("/camareros/100").content(requestBody).contentType("application/json"))
+				.andExpect(status().isNotFound()).andReturn();
 
 		verify(camareroServices, times(1)).update(camarero1);
 
-		RespuestaError respuestaError = new RespuestaError("EL MENSAJE");
-
-		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
-		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
-
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);	
+		checkResponseBody(new RespuestaError("EL MENSAJE"), respuesta);
 	}
-		
+
 	@Test
-	void eliminamos_camarero_EXISTENTE_a_partir_de_su_id() throws Exception{
-		
-	    miniPostman.perform(delete("/camareros/101"))
-	               .andExpect(status().isNoContent());
-	           
-	    verify(camareroServices, times(1)).delete(101L);
+	void eliminamos_camarero_EXISTENTE_a_partir_de_su_id() throws Exception {
+
+		mockMvc.perform(delete("/camareros/101")).andExpect(status().isNoContent());
+
+		verify(camareroServices, times(1)).delete(101L);
 	}
-	
+
 	@Test
-	void eliminamos_camarero_NO_EXISTENTE_a_partir_de_su_id() throws Exception{
+	void eliminamos_camarero_NO_EXISTENTE_a_partir_de_su_id() throws Exception {
 
 		doThrow(new IllegalStateException("EL MENSAJE")).when(camareroServices).delete(101L);
-		
-		MvcResult respuesta = miniPostman.perform(delete("/camareros/101"))
-										 .andExpect(status().isNotFound())
-										 .andReturn();
-	
+
+		MvcResult respuesta = mockMvc.perform(delete("/camareros/101")).andExpect(status().isNotFound()).andReturn();
+
 		verify(camareroServices, times(1)).delete(101L);
-		
-		RespuestaError respuestaError = new RespuestaError("EL MENSAJE");
-		
-		String responseBody = respuesta.getResponse().getContentAsString(StandardCharsets.UTF_8);
-		String responseBodyEsperada = objectMapper.writeValueAsString(respuestaError);
-		
-		assertThat(responseBody).isEqualToIgnoringWhitespace(responseBodyEsperada);		
+
+		checkResponseBody(new RespuestaError("EL MENSAJE"), respuesta);
 	}
 
 	// *************************************************
@@ -220,7 +173,7 @@ class CamareroControllerTest {
 	// *************************************************
 
 	private void initObjects() {
-		
+
 		camarero1 = new Camarero();
 		camarero2 = new Camarero();
 		camarero3 = new Camarero();
