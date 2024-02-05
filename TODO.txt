@@ -1,0 +1,25 @@
+1.- Completamos PedidoServicesImpl
+
+Los métodos... 
+
+public void procesar(Long numero)  -> Pasamos de NUEVO a EN_PROCESO (única transición posible)
+public void entregar(Long numero)  -> Pasamos de EN_PROCESO a PENDIENTE_ENTREGA (única transición posible)
+public void servir(Long numero)    -> Pasamos de PENDIENTE_ENTREGA a SERVIDO (única transición posible)
+public void cancelar(Long numero)  -> Pasamos de NUEVO, EN_PROCESO o PENDIENTE_ENTREGA a CANCELAR (únicas transición posible)
+
+* Modificar el método create() para que el estado sea "NUEVO"
+
+Estos métodos utilizarán una query implementada en el repositorio PedidoPLRepository
+
+============================================================================================
+
+2.- Resolver todos los TODOs de ProductoServicesImpl
+
+(Esto implicará diseñar queries en ProductoPLRepository)
+
+=============================================================================================
+
+3.- Realizar pruebas de repositorios de todas las queries creadss por nosotros (excepto las del "showcase" de CamareroPLRepository
+
+
+		

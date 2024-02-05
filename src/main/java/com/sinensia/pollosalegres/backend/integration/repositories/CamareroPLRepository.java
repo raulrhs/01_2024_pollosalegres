@@ -22,7 +22,9 @@ public interface CamareroPLRepository extends JpaRepository<CamareroPL, Long>{
 	@Query("SELECT new com.sinensia.pollosalegres.backend.integration.model.dtos.CamareroPLDTO1(c.id, c.nombre, c.apellido1, c.apellido2, c.licenciaManipuladorAlimentos) FROM CamareroPL c")
 	List<CamareroPLDTO1> findAllDTO1();
 	
-	// Demo de JPQL NO SE UTILIZAN!!!! A modo de showcase
+	// ******************************************************************************
+	// Demos de JPQL que NO SE UTILIZAN!!!! A modo de showcase   NO REQUIERN TESTING
+	// ******************************************************************************
 	
 	@Query("SELECT c FROM CamareroPL c ORDER BY c.id DESC")
 	List<CamareroPL> getAll();
