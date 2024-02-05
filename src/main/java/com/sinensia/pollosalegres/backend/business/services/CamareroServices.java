@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.sinensia.pollosalegres.backend.business.model.Camarero;
+import com.sinensia.pollosalegres.backend.business.model.dtos.CamareroDTO1;
 
 public interface CamareroServices {
 	
@@ -27,5 +28,13 @@ public interface CamareroServices {
 	List<Camarero> getByNombreLikeIgnoreCase(String texto);
 	
 	int getNumeroTotalCamareros();
+	
+	// ********************************************************
+	//
+	// Obtención de DTOs
+	//
+	// ********************************************************
+	
+	List<CamareroDTO1> getAllCamareroDTO1();
 
 }

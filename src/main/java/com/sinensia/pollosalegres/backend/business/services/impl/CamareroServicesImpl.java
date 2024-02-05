@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sinensia.pollosalegres.backend.business.model.Camarero;
+import com.sinensia.pollosalegres.backend.business.model.dtos.CamareroDTO1;
 import com.sinensia.pollosalegres.backend.business.services.CamareroServices;
 import com.sinensia.pollosalegres.backend.integration.model.CamareroPL;
 import com.sinensia.pollosalegres.backend.integration.repositories.CamareroPLRepository;
@@ -30,7 +31,7 @@ public class CamareroServicesImpl implements CamareroServices {
 		if(camarero.getId() != null) {
 			throw new IllegalStateException("Para crear un camarero el id ha de ser null");
 		}
-	
+
 		boolean existeDni = camareroPLRepository.existsByDni(camarero.getDni());
 		
 		if(existeDni) {
@@ -88,7 +89,6 @@ public class CamareroServicesImpl implements CamareroServices {
 		}
 
 		camareroPLRepository.save(mapper.map(camarero, CamareroPL.class));
-	
 	}
 
 	@Transactional
@@ -108,7 +108,7 @@ public class CamareroServicesImpl implements CamareroServices {
 	@Override
 	public List<Camarero> getByNombreLikeIgnoreCase(String texto) {
 		
-		return camareroPLRepository.findByNombreLikeIgnoreCaseOrderById("%" + texto + "%").stream()
+		return camareroPLRepository.findByNombreLikeIgnoreCase(texto).stream()
 				.map(x -> mapper.map(x, Camarero.class))
 				.toList();
 	}
@@ -116,6 +116,14 @@ public class CamareroServicesImpl implements CamareroServices {
 	@Override
 	public int getNumeroTotalCamareros() {
 		return (int) camareroPLRepository.count();
+	}
+
+	@Override
+	public List<CamareroDTO1> getAllCamareroDTO1() {
+		
+		return camareroPLRepository.findAllDTO1().stream()
+				.map(x -> mapper.map(x, CamareroDTO1.class))
+				.toList();
 	}
 
 }

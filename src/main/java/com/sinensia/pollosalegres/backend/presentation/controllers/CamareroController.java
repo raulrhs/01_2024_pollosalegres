@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.sinensia.pollosalegres.backend.business.model.Camarero;
+import com.sinensia.pollosalegres.backend.business.model.dtos.CamareroDTO1;
 import com.sinensia.pollosalegres.backend.business.services.CamareroServices;
 import com.sinensia.pollosalegres.backend.presentation.config.PresentationException;
 
@@ -113,6 +114,11 @@ public class CamareroController {
 			throw new PresentationException(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
+	}
+	
+	@GetMapping("/dtos/camarero-dto1")
+	public List<CamareroDTO1> getAllCamareroDTO1(){
+		return camareroServices.getAllCamareroDTO1();
 	}
 			
 }

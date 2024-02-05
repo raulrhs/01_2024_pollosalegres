@@ -34,6 +34,7 @@ class CamareroPLRepositoryTest {
 	}
 
 	@Test
+	// TODO OJO! QUITAR Y CAMBIAR POR LA NUEVA
 	void findByNombreLikeIgnoreCaseOrderByIdTest() {
 		
 		CamareroPL camareroPL1 = new CamareroPL();
@@ -44,7 +45,7 @@ class CamareroPLRepositoryTest {
 		
 		List<CamareroPL> camarerosPLEsperados = Arrays.asList(camareroPL1, camareroPL2);
 		
-		List<CamareroPL> camarerosPL = camareroPLRepository.findByNombreLikeIgnoreCaseOrderById("%nA%");
+		List<CamareroPL> camarerosPL = null;
 		
 		assertNotNull(camarerosPL);
 		assertEquals(2, camarerosPL.size());

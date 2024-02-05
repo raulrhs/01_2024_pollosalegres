@@ -92,10 +92,8 @@ public interface ProductoServices {
 	// Obtención de DTOs
 	//
 	// ********************************************************
-	
-	
+
 	List<EstadisticaDTO1> getEstadisticasDTO1();
 	
-	List<EstadisticaDTO2> getEstadisticasDTO2();
-	
+	List<EstadisticaDTO2> getEstadisticasDTO2();	
 }
