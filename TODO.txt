@@ -1,25 +1,30 @@
-1.- Completamos PedidoServicesImpl
+@Configuration
+@Aspect
+public class LogAspectConfig {
+	
+	private Logger logger = LoggerFactory.getLogger(LogAspectConfig.class);
 
-Los métodos... 
-
-public void procesar(Long numero)  -> Pasamos de NUEVO a EN_PROCESO (única transición posible)
-public void entregar(Long numero)  -> Pasamos de EN_PROCESO a PENDIENTE_ENTREGA (única transición posible)
-public void servir(Long numero)    -> Pasamos de PENDIENTE_ENTREGA a SERVIDO (única transición posible)
-public void cancelar(Long numero)  -> Pasamos de NUEVO, EN_PROCESO o PENDIENTE_ENTREGA a CANCELAR (únicas transición posible)
-
-* Modificar el método create() para que el estado sea "NUEVO"
-
-Estos métodos utilizarán una query implementada en el repositorio PedidoPLRepository
-
-============================================================================================
-
-2.- Resolver todos los TODOs de ProductoServicesImpl
-
-(Esto implicará diseñar queries en ProductoPLRepository)
-
-=============================================================================================
-
-3.- Realizar pruebas de repositorios de todas las queries creadss por nosotros (excepto las del "showcase" de CamareroPLRepository
-
-
+	@Before(value="execution(* com.sinensia.pollosprimos.backend.presentation.restcontrollers.*.*(..))")
+	public void logPresentationLayer(JoinPoint joinPoint) {
+		generarLog(joinPoint);
+	}
+	
+	@Before(value="execution(* com.sinensia.pollosprimos.backend.business.services.impl.*.*(..))")
+	public void logBusinessLayer(JoinPoint joinPoint) {
+		generarLog(joinPoint);
+	}	
+	
+	// ********************************************************
+	//
+	// Private Methods
+	//
+	// ********************************************************
+	
+	private void generarLog(JoinPoint joinPoint) {
 		
+		String nombreClase = joinPoint.getTarget().getClass().getSimpleName();
+		String nombreMetodo = joinPoint.getSignature().getName();
+		Object[] argumentos = joinPoint.getArgs();
+		
+		logger.info("Invocado método {}() de la clase {} con argumentos {}", nombreMetodo, nombreClase, argumentos);
+	}

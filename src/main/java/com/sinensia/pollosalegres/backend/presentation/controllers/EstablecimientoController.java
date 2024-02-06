@@ -21,7 +21,7 @@ import com.sinensia.pollosalegres.backend.presentation.config.PresentationExcept
 @RestController
 @RequestMapping("/establecimientos")
 public class EstablecimientoController {
-
+	
 	private EstablecimientoServices establecimientoServices;
 	
 	public EstablecimientoController(EstablecimientoServices establecimientoServices) {
@@ -30,12 +30,13 @@ public class EstablecimientoController {
 	
 	@GetMapping
 	public List<Establecimiento> getAll(){
+		
 		return establecimientoServices.getAll();
 	}
 	
 	@GetMapping("/{codigo}")
 	public Establecimiento read(@PathVariable Long codigo) {
-	
+		
 		Optional<Establecimiento> optional = establecimientoServices.read(codigo);
 		
 		if(optional.isEmpty()) {
