@@ -38,7 +38,6 @@ public class PedidoServicesImpl implements PedidoServices {
 		pedido.setEstado(EstadoPedido.NUEVO);
 		
 		PedidoPL pedidoPL = mapper.map(pedido, PedidoPL.class);
-		pedidoPL.setNumero(System.currentTimeMillis());
 		
 		return pedidoPLRepository.save(pedidoPL).getNumero();
 	}

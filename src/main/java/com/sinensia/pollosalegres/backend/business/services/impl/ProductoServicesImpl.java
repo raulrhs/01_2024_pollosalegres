@@ -39,7 +39,6 @@ public class ProductoServicesImpl implements ProductoServices {
 		}
 		
 		ProductoPL productoPL = mapper.map(producto, ProductoPL.class);
-		productoPL.setCodigo(System.currentTimeMillis());
 		
 		return productoPLRepository.save(productoPL).getCodigo();	
 	}

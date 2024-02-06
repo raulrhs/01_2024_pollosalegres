@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -12,6 +13,7 @@ import jakarta.persistence.Table;
 public class CategoriaPL implements Serializable {
 	
 	@Id
+	@GeneratedValue(generator="CATEGORIA_SEQ")
 	private Long id;
 	
 	private String name;

@@ -32,7 +32,6 @@ public class EstablecimientoServicesImpl implements EstablecimientoServices {
 		}
 		
 		EstablecimientoPL establecimientoPL = mapper.map(establecimiento, EstablecimientoPL.class);
-		establecimientoPL.setCodigo(System.currentTimeMillis());
 		
 		return establecimientoPLRepository.save(establecimientoPL).getCodigo();
 	}

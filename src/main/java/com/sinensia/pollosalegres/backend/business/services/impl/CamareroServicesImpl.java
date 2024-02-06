@@ -39,7 +39,6 @@ public class CamareroServicesImpl implements CamareroServices {
 		}
 		
 		CamareroPL camareroPL = mapper.map(camarero, CamareroPL.class);
-		camareroPL.setId(System.currentTimeMillis());
 		
 		return camareroPLRepository.save(camareroPL).getId();
 	}
