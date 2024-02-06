@@ -1,5 +1,7 @@
 package com.sinensia.pollosalegres.backend.business.services.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import org.dozer.DozerBeanMapper;
@@ -37,12 +39,35 @@ public class EstablecimientoServicesImplTest {
 	@Test
 	void create_establecimiento_ok() {
 		
+		// ARRANGE
+		
 		establecimiento1.setCodigo(null);
 		establecimientoPL1.setCodigo(null);
 		
+		EstablecimientoPL createdEstablecimientoPL = new EstablecimientoPL();
+		createdEstablecimientoPL.setCodigo(1500L);
+		
 		when(mapper.map(establecimiento1, EstablecimientoPL.class)).thenReturn(establecimientoPL1);
+		when(establecimientoPLRepository.save(establecimientoPL1)).thenReturn(createdEstablecimientoPL);
 		
+		// ACT
 		
+		Long codigo = establecimientoServicesImpl.create(establecimiento1);
+		
+		// ASSERT
+		
+		assertEquals(1500L, codigo);
+		
+	}
+	
+	@Test
+	void create_establecimiento_con_codigo_NO_null() {
+		
+		Exception exception = assertThrows(IllegalStateException.class, () -> {
+			establecimientoServicesImpl.create(establecimiento1);
+		});
+		
+		assertEquals("Para crear un establecimiento el codigo ha de ser null", exception.getMessage());
 	}
 	
 	// *************************************************

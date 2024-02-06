@@ -33,7 +33,9 @@ public class EstablecimientoServicesImpl implements EstablecimientoServices {
 		
 		EstablecimientoPL establecimientoPL = mapper.map(establecimiento, EstablecimientoPL.class);
 		
-		return establecimientoPLRepository.save(establecimientoPL).getCodigo();
+		EstablecimientoPL createdEstablecimientoPL = establecimientoPLRepository.save(establecimientoPL);
+		
+		return createdEstablecimientoPL.getCodigo();
 	}
 
 	@Override
