@@ -1,6 +1,7 @@
 package com.sinensia.pollosalegres.backend.business.services.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import com.sinensia.pollosalegres.backend.business.model.Producto;
 import com.sinensia.pollosalegres.backend.business.model.dtos.EstadisticaDTO1;
 import com.sinensia.pollosalegres.backend.business.model.dtos.EstadisticaDTO2;
 import com.sinensia.pollosalegres.backend.business.services.ProductoServices;
+import com.sinensia.pollosalegres.backend.integration.model.CategoriaPL;
 import com.sinensia.pollosalegres.backend.integration.model.ProductoPL;
 import com.sinensia.pollosalegres.backend.integration.repositories.ProductoPLRepository;
 
@@ -39,8 +41,7 @@ public class ProductoServicesImpl implements ProductoServices {
 		ProductoPL productoPL = mapper.map(producto, ProductoPL.class);
 		productoPL.setCodigo(System.currentTimeMillis());
 		
-		return productoPLRepository.save(productoPL).getCodigo();
-		
+		return productoPLRepository.save(productoPL).getCodigo();	
 	}
 
 	@Override
@@ -79,75 +80,123 @@ public class ProductoServicesImpl implements ProductoServices {
 
 	@Override
 	public List<Producto> getAll() {
-
-		return productoPLRepository.findAll().stream()
-				.map(x -> mapper.map(x, Producto.class))
-				.toList();
+		return convertProductoPLList(productoPLRepository.findAll());
 	}
 
 	@Override
 	public List<Producto> getBetweenPriceRange(double min, double max) {
-		// TODO Auto-generated method stub
-		return null;
+		return convertProductoPLList(productoPLRepository.findByPrecioBetween(min, max));
 	}
 
 	@Override
 	public List<Producto> getBetweenDates(Date desde, Date hasta) {
-		// TODO Auto-generated method stub
-		return null;
+		return convertProductoPLList(productoPLRepository.findByFechaAltaBetween(desde, hasta));
 	}
 
 	@Override
 	public List<Producto> getDescatalogados() {
-		// TODO Auto-generated method stub
-		return null;
+		return convertProductoPLList(productoPLRepository.findByDescatalogadoTrue());
 	}
 
 	@Override
 	public List<Producto> getByCategoria(Categoria categoria) {
-		// TODO Auto-generated method stub
-		return null;
+		return convertProductoPLList(productoPLRepository.findByCategoriaId(categoria.getId()));
 	}
-
+	
 	@Override
 	public int getNumeroTotalProductos() {
 		return (int) productoPLRepository.count();
 	}
 
 	@Override
+	@Transactional
 	public void variarPrecio(List<Producto> productos, double porcentaje) {
-		// TODO Auto-generated method stub
+	
+		List<ProductoPL> productosPL = productos.stream()
+				.map(x -> mapper.map(x, ProductoPL.class))
+				.toList();
 		
+		productoPLRepository.variarPrecio(productosPL, porcentaje);
 	}
 
 	@Override
+	@Transactional
 	public void variarPrecio(long[] codigos, double porcentaje) {
-		// TODO Auto-generated method stub
-		
+		productoPLRepository.variarPrecio(codigos, porcentaje);
 	}
 
 	@Override
 	public Map<Categoria, Integer> getEstadisticaNumeroProductoPorCategoria() {
-		// TODO Auto-generated method stub
-		return null;
+
+		// TODO Deben aparecer las categorias que no tienen ningun producto
+		
+		Map<Categoria, Integer> mapaResultados = new HashMap<>();
+		
+		productoPLRepository.getEstadisticaNumeroProductoPorCategoria().stream()
+			.forEach(x -> {
+				Categoria categoria = mapper.map((CategoriaPL) x[0], Categoria.class);
+				Integer cantidad = ((Long) x[1]).intValue();
+				mapaResultados.put(categoria, cantidad);
+			});
+		
+		return mapaResultados;
 	}
 
 	@Override
 	public Map<Categoria, Double> getEstadisticaPrecioMedioProductosPorCategoria() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		// TODO Deben aparecer las categorias que no tienen ningun producto
+		
+		Map<Categoria, Double> mapaResultados = new HashMap<>();
+		
+		productoPLRepository.getEstadisticaPrecioMedioProductoPorCategoria().stream()
+		.forEach(x -> {
+			Categoria categoria = mapper.map((CategoriaPL) x[0], Categoria.class);
+			Double precioMedio = (Double) x[1];
+			mapaResultados.put(categoria, precioMedio);
+		});
+		
+		return mapaResultados;
 	}
 
 	@Override
 	public List<EstadisticaDTO1> getEstadisticasDTO1() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		// TODO Deben aparecer las categorias que no tienen ningun producto
+		
+		return productoPLRepository.getEstadisticaNumeroProductoPorCategoria().stream()
+				.map(x -> {
+							CategoriaPL categoriaPL = (CategoriaPL) x[0];
+							int cantidad = ((Long) x[1]).intValue();
+							return new EstadisticaDTO1(categoriaPL.getId(), categoriaPL.getName(), cantidad);
+						})
+				.toList();
 	}
 
 	@Override
 	public List<EstadisticaDTO2> getEstadisticasDTO2() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		// TODO Deben aparecer las categorias que no tienen ningun producto
+		
+		return productoPLRepository.getEstadisticaNumeroProductoPorCategoria().stream()
+				.map(x -> {
+							Categoria categoria = mapper.map((CategoriaPL) x[0], Categoria.class);
+							int cantidad = ((Long) x[1]).intValue();
+							return new EstadisticaDTO2(categoria, cantidad);
+						})
+				.toList();
 	}
+	
+	// *************************************************
+	//
+	// Private Methods
+	//
+	// *************************************************
 
+	private List<Producto> convertProductoPLList(List<ProductoPL> productosPL){
+		
+		return productosPL.stream()
+				.map(x -> mapper.map(x, Producto.class))
+				.toList();
+	}
 }

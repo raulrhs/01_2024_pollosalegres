@@ -16,7 +16,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.sinensia.pollosalegres.backend.integration.model.CamareroPL;
 
 @DataJpaTest
-@Sql(scripts={"/data/h2/schema.sql","/data/h2/data.sql"})
+@Sql(scripts={"/data/h2/schema_test.sql","/data/h2/data_test.sql"})
 class CamareroPLRepositoryTest {
 
 	@Autowired
@@ -34,7 +34,6 @@ class CamareroPLRepositoryTest {
 	}
 
 	@Test
-	// TODO OJO! QUITAR Y CAMBIAR POR LA NUEVA
 	void findByNombreLikeIgnoreCaseOrderByIdTest() {
 		
 		CamareroPL camareroPL1 = new CamareroPL();
@@ -45,7 +44,7 @@ class CamareroPLRepositoryTest {
 		
 		List<CamareroPL> camarerosPLEsperados = Arrays.asList(camareroPL1, camareroPL2);
 		
-		List<CamareroPL> camarerosPL = null;
+		List<CamareroPL> camarerosPL = camareroPLRepository.findByNombreLikeIgnoreCase("nA");
 		
 		assertNotNull(camarerosPL);
 		assertEquals(2, camarerosPL.size());

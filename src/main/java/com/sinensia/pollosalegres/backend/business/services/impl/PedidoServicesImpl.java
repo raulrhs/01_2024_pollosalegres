@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
 
+import com.sinensia.pollosalegres.backend.business.model.EstadoPedido;
 import com.sinensia.pollosalegres.backend.business.model.Pedido;
 import com.sinensia.pollosalegres.backend.business.services.PedidoServices;
+import com.sinensia.pollosalegres.backend.integration.model.EstadoPedidoPL;
 import com.sinensia.pollosalegres.backend.integration.model.PedidoPL;
 import com.sinensia.pollosalegres.backend.integration.repositories.PedidoPLRepository;
 
@@ -33,6 +35,8 @@ public class PedidoServicesImpl implements PedidoServices {
 			throw new IllegalStateException("Para crear un pedido el codigo ha de ser null");
 		}
 		
+		pedido.setEstado(EstadoPedido.NUEVO);
+		
 		PedidoPL pedidoPL = mapper.map(pedido, PedidoPL.class);
 		pedidoPL.setNumero(System.currentTimeMillis());
 		
@@ -54,7 +58,7 @@ public class PedidoServicesImpl implements PedidoServices {
 	}
 
 	@Override
-	public void update(Long numerPedido, Map<String, Object> atributos) {
+	public void update(Long numeroPedido, Map<String, Object> atributos) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -85,27 +89,75 @@ public class PedidoServicesImpl implements PedidoServices {
 				.toList();
 	}
 
+	@Transactional
 	@Override
 	public void procesar(Long numero) {
-		// TODO Auto-generated method stub
+		
+		Optional<EstadoPedidoPL> optional = pedidoPLRepository.getEstadoByCodigo(numero);
+		
+		if(optional.isEmpty()) {
+			throw new IllegalArgumentException("No existe el pedido numero " + numero);
+		}
+		
+		if(!optional.get().equals(EstadoPedidoPL.NUEVO)) {
+			throw new IllegalStateException("No se puede pasar a estado EN_PROCESO un pedido en estado " + optional.get());
+		}
+		
+		pedidoPLRepository.updateEstado(EstadoPedidoPL.EN_PROCESO, numero);
 		
 	}
 
+	@Transactional
 	@Override
 	public void entregar(Long numero) {
-		// TODO Auto-generated method stub
+		
+		Optional<EstadoPedidoPL> optional = pedidoPLRepository.getEstadoByCodigo(numero);
+		
+		if(optional.isEmpty()) {
+			throw new IllegalArgumentException("No existe el pedido numero " + numero);
+		}
+		
+		if(!optional.get().equals(EstadoPedidoPL.EN_PROCESO)) {
+			throw new IllegalStateException("No se puede pasar a estado PENDIENTE_ENTREGA un pedido en estado " + optional.get());
+		}
+		
+		pedidoPLRepository.updateEstado(EstadoPedidoPL.PENDIENTE_ENTREGA, numero);
 		
 	}
 
+	@Transactional
 	@Override
 	public void servir(Long numero) {
-		// TODO Auto-generated method stub
+		
+		Optional<EstadoPedidoPL> optional = pedidoPLRepository.getEstadoByCodigo(numero);
+		
+		if(optional.isEmpty()) {
+			throw new IllegalArgumentException("No existe el pedido numero " + numero);
+		}
+		
+		if(!optional.get().equals(EstadoPedidoPL.PENDIENTE_ENTREGA)) {
+			throw new IllegalStateException("No se puede pasar a estado SERVIDO un pedido en estado " + optional.get());
+		}
+		
+		pedidoPLRepository.updateEstado(EstadoPedidoPL.SERVIDO, numero);
 		
 	}
 
+	@Transactional
 	@Override
 	public void cancelar(Long numero) {
-		// TODO Auto-generated method stub
+		
+		Optional<EstadoPedidoPL> optional = pedidoPLRepository.getEstadoByCodigo(numero);
+		
+		if(optional.isEmpty()) {
+			throw new IllegalArgumentException("No existe el pedido numero " + numero);
+		}
+		
+		if(optional.get().equals(EstadoPedidoPL.SERVIDO) || optional.get().equals(EstadoPedidoPL.CANCELADO)) {
+			throw new IllegalStateException("No se puede pasar a estado CANCELADO un pedido en estado " + optional.get());
+		}
+		
+		pedidoPLRepository.updateEstado(EstadoPedidoPL.SERVIDO, numero);
 		
 	}
 

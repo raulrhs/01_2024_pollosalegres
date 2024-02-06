@@ -12,7 +12,7 @@ public interface PedidoServices {
 	
 	Optional<Pedido> read(Long numero);
 	
-	void update(Long numerPedido, Map<String, Object> atributos);
+	void update(Long numeroPedido, Map<String, Object> atributos);
 	
 	void update(Pedido pedido);
 	

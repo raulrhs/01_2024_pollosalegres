@@ -2,11 +2,13 @@ package com.sinensia.pollosalegres.backend.presentation.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.sinensia.pollosalegres.backend.business.model.EstadoPedido;
 import com.sinensia.pollosalegres.backend.business.model.Pedido;
 import com.sinensia.pollosalegres.backend.business.services.PedidoServices;
 import com.sinensia.pollosalegres.backend.presentation.config.PresentationException;
@@ -31,7 +34,7 @@ public class PedidoController {
 	}
 	
 	@GetMapping
-	public List<Pedido> getProductos(){
+	public List<Pedido> getPedidos(){
 		return pedidoServices.getAll();
 	}
 	
@@ -74,6 +77,25 @@ public class PedidoController {
 		} catch(IllegalStateException e) {
 			throw new PresentationException(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@PatchMapping("/{numero}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateEstado(@RequestBody Map<String, String> attributes, @PathVariable Long numero) {
+		
+		try {
+			String estado = (attributes.get("estado")).toUpperCase();
+			EstadoPedido estadoPedio = EstadoPedido.valueOf(estado);
+			switch(estadoPedio) {
+				case CANCELADO: pedidoServices.cancelar(numero); break;
+				case SERVIDO: pedidoServices.servir(numero); break;
+				case EN_PROCESO: pedidoServices.procesar(numero); break;
+				case PENDIENTE_ENTREGA: pedidoServices.entregar(numero); break;
+				case NUEVO: break;
+			}
+		} catch(IllegalStateException | IllegalArgumentException e) {
+			throw new PresentationException(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} 
 	}
 	
 }
