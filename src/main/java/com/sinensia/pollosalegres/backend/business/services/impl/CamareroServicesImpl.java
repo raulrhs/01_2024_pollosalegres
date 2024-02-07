@@ -3,7 +3,6 @@ package com.sinensia.pollosalegres.backend.business.services.impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,14 +13,12 @@ import com.sinensia.pollosalegres.backend.integration.model.CamareroPL;
 import com.sinensia.pollosalegres.backend.integration.repositories.CamareroPLRepository;
 
 @Service
-public class CamareroServicesImpl implements CamareroServices {
+public class CamareroServicesImpl extends AbstractServices implements CamareroServices {
 
 	private CamareroPLRepository camareroPLRepository;
-	private DozerBeanMapper mapper;
 	
-	public CamareroServicesImpl(CamareroPLRepository camareroPLRepository, DozerBeanMapper mapper) {
+	public CamareroServicesImpl(CamareroPLRepository camareroPLRepository) {
 		this.camareroPLRepository = camareroPLRepository;
-		this.mapper = mapper;
 	}
 	
 	@Transactional
@@ -95,13 +92,10 @@ public class CamareroServicesImpl implements CamareroServices {
 	public void delete(Long id) {
 		camareroPLRepository.deleteById(id);
 	}
-
+	
 	@Override
 	public List<Camarero> getAll() {
-		
-		return camareroPLRepository.findAll().stream()
-				.map(x -> mapper.map(x, Camarero.class))
-				.toList();
+		return convertList(camareroPLRepository.findAll(), Camarero.class);	
 	}
 	
 	@Override
