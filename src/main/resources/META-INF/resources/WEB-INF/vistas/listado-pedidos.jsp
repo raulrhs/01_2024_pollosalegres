@@ -8,22 +8,28 @@
 	<title>Pollos Alegres</title>
 </head>
 <body>
-	<jsp:include page="header.jsp" />
-	<h2>Listado de camareros</h2>
+	
+	<h2>Listado de pedidos</h2>
 	<table>
 		<thead>
 			<tr>
 				<th>Código</th>
-				<th>DNI</th>
-				<th>Nombre Completo</th>
+				<th>Fecha</th>
+				<th>Cliente</th>
+				<th>Camarero</th>
+				<th>Establecimiento</th>
+				<th>Estado</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="camarero" items="${camareros}">
+			<c:forEach var="pedido" items="${pedidos}">
 			<tr>
-				<td>${camarero.id}</td>
-				<td>${camarero.dni}</td>
-				<td>${camarero.apellido1} ${camarero.apellido2}, ${camarero.nombre}</td>
+				<td>${pedido.numero}</td>
+				<td>${pedido.fecha}</td>
+				<td>${pedido.cliente.id}</td>
+				<td>${pedido.camarero.id}</td>
+				<td>${pedido.establecimiento.codigo}</td>
+				<td>${pedido.estado}</td>
 			</tr>
 			</c:forEach>
 		</tbody>
