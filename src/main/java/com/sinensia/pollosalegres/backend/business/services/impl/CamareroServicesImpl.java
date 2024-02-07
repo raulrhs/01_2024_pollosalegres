@@ -16,27 +16,27 @@ import com.sinensia.pollosalegres.backend.integration.repositories.CamareroPLRep
 public class CamareroServicesImpl extends AbstractServices implements CamareroServices {
 
 	private CamareroPLRepository camareroPLRepository;
-	
+
 	public CamareroServicesImpl(CamareroPLRepository camareroPLRepository) {
 		this.camareroPLRepository = camareroPLRepository;
 	}
-	
+
 	@Transactional
 	@Override
 	public Long create(Camarero camarero) {
-		
-		if(camarero.getId() != null) {
+
+		if (camarero.getId() != null) {
 			throw new IllegalStateException("Para crear un camarero el id ha de ser null");
 		}
 
 		boolean existeDni = camareroPLRepository.existsByDni(camarero.getDni());
-		
-		if(existeDni) {
+
+		if (existeDni) {
 			throw new IllegalStateException("Ya existe un camarero con el mismo dni");
 		}
-		
+
 		CamareroPL camareroPL = mapper.map(camarero, CamareroPL.class);
-		
+
 		return camareroPLRepository.save(camareroPL).getId();
 	}
 
@@ -44,43 +44,43 @@ public class CamareroServicesImpl extends AbstractServices implements CamareroSe
 	public Optional<Camarero> read(Long id) {
 
 		Optional<CamareroPL> optional = camareroPLRepository.findById(id);
-		
+
 		Camarero camarero = null;
-		
-		if(optional.isPresent()) {
+
+		if (optional.isPresent()) {
 			camarero = mapper.map(optional.get(), Camarero.class);
 		}
-		
-		return Optional.ofNullable(camarero);	
+
+		return Optional.ofNullable(camarero);
 	}
 
 	@Override
 	public Optional<Camarero> read(String dni) {
-		
+
 		Optional<CamareroPL> optional = camareroPLRepository.findByDni(dni);
-		
+
 		Camarero camarero = null;
-		
-		if(optional.isPresent()) {
+
+		if (optional.isPresent()) {
 			camarero = mapper.map(optional.get(), Camarero.class);
 		}
-		
+
 		return Optional.ofNullable(camarero);
 	}
 
 	@Transactional
 	@Override
 	public void update(Camarero camarero) {
-	
+
 		Long id = camarero.getId();
 
-		if(id == null) {
+		if (id == null) {
 			throw new IllegalStateException("No se puede actualizar un camarero con id null");
 		}
 
 		boolean existe = camareroPLRepository.existsById(id);
 
-		if(!existe) {
+		if (!existe) {
 			throw new IllegalStateException("El camarero con id " + id + " no existe. No se puede actualizar");
 		}
 
@@ -92,18 +92,15 @@ public class CamareroServicesImpl extends AbstractServices implements CamareroSe
 	public void delete(Long id) {
 		camareroPLRepository.deleteById(id);
 	}
-	
+
 	@Override
 	public List<Camarero> getAll() {
-		return convertList(camareroPLRepository.findAll(), Camarero.class);	
+		return convertList(camareroPLRepository.findAll(), Camarero.class);
 	}
-	
+
 	@Override
 	public List<Camarero> getByNombreLikeIgnoreCase(String texto) {
-		
-		return camareroPLRepository.findByNombreLikeIgnoreCase(texto).stream()
-				.map(x -> mapper.map(x, Camarero.class))
-				.toList();
+		return convertList(camareroPLRepository.findByNombreLikeIgnoreCase(texto), Camarero.class);
 	}
 
 	@Override
@@ -113,10 +110,7 @@ public class CamareroServicesImpl extends AbstractServices implements CamareroSe
 
 	@Override
 	public List<CamareroDTO1> getAllCamareroDTO1() {
-		
-		return camareroPLRepository.findAllDTO1().stream()
-				.map(x -> mapper.map(x, CamareroDTO1.class))
-				.toList();
+		return convertList(camareroPLRepository.findAllDTO1(), CamareroDTO1.class);
 	}
 
 }
