@@ -33,6 +33,7 @@ import com.sinensia.pollosalegres.backend.business.model.Pedido;
 import com.sinensia.pollosalegres.backend.business.model.Producto;
 import com.sinensia.pollosalegres.backend.business.services.PedidoServices;
 import com.sinensia.pollosalegres.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.presentation.restcontrollers.PedidoController;
 
 @WebMvcTest(value = PedidoController.class)
 class PedidoControllerTest extends AbstractControllerTest{

@@ -1,4 +1,4 @@
-package com.sinensia.pollosalegres.backend.presentation.controllers;
+package com.sinensia.pollosalegres.backend.presentation.restcontrollers;
 
 import java.util.Arrays;
 import java.util.HashMap;

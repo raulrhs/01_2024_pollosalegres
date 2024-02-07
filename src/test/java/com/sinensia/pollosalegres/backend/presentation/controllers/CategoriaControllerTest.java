@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.sinensia.pollosalegres.backend.business.model.Categoria;
 import com.sinensia.pollosalegres.backend.business.services.CategoriaServices;
 import com.sinensia.pollosalegres.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.presentation.restcontrollers.CategoriaController;
 
 @WebMvcTest(value = CategoriaController.class)
 class CategoriaControllerTest extends AbstractControllerTest {

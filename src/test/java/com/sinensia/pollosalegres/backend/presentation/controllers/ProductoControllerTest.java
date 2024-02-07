@@ -26,6 +26,7 @@ import com.sinensia.pollosalegres.backend.business.model.Categoria;
 import com.sinensia.pollosalegres.backend.business.model.Producto;
 import com.sinensia.pollosalegres.backend.business.services.ProductoServices;
 import com.sinensia.pollosalegres.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.presentation.restcontrollers.ProductoController;
 
 @WebMvcTest(value = ProductoController.class)
 class ProductoControllerTest extends AbstractControllerTest {

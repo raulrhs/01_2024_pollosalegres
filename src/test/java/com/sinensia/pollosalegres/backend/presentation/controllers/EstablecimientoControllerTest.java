@@ -24,6 +24,7 @@ import com.sinensia.pollosalegres.backend.business.model.Direccion;
 import com.sinensia.pollosalegres.backend.business.model.Establecimiento;
 import com.sinensia.pollosalegres.backend.business.services.EstablecimientoServices;
 import com.sinensia.pollosalegres.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.presentation.restcontrollers.EstablecimientoController;
 
 @WebMvcTest(value = EstablecimientoController.class)
 class EstablecimientoControllerTest extends AbstractControllerTest {

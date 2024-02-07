@@ -26,6 +26,7 @@ import com.sinensia.pollosalegres.backend.business.model.DatosContacto;
 import com.sinensia.pollosalegres.backend.business.model.Direccion;
 import com.sinensia.pollosalegres.backend.business.services.CamareroServices;
 import com.sinensia.pollosalegres.backend.presentation.config.RespuestaError;
+import com.sinensia.pollosalegres.backend.presentation.restcontrollers.CamareroController;
 
 @WebMvcTest(value = CamareroController.class)
 class CamareroControllerTest extends AbstractControllerTest {
