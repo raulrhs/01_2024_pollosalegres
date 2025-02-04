@@ -1,4 +1,3 @@
 # Pollos Alegres
-## _Aplicación de demo de Spring Boot_
-
-Swagger: http://localhost:8080/swagger-ui.html
+## _Spring Boot Demo Application_
+### Developed for the ViewNext onboarding Java/Spring course
